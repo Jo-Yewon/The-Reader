@@ -50,6 +50,14 @@ repositories {
     maven { // textdrawable
         url 'https://dl.bintray.com/amulyakhare/maven'
     }
+
+    //카카오 추가
+    mavenCentral()
+    maven {
+        url 'http://devrepo.kakao.com:8088/nexus/content/groups/public/'  //카카오 추가
+    }
+    //카카오 추가 끝
+
     google()
     jcenter()
     mavenLocal()
@@ -58,6 +66,7 @@ repositories {
 dependencies {
     def supportVersion = '28.0.0'
 
+    compile group: 'com.kakao.sdk', name: 'newtone', version: '6.0.1' //카카오 추가
     compile "com.android.support:appcompat-v7:$supportVersion"
     compile "com.android.support:recyclerview-v7:$supportVersion"
     compile "com.android.support:design:$supportVersion"
@@ -475,4 +484,3 @@ def getLastCommitTimestamp() {
         return os.toString() + "000"
     }
 }
-
