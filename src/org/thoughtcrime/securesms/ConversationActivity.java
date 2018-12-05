@@ -294,7 +294,7 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
   @Override
   public void onInit(int status) { //for OninitListener
     if (status == TextToSpeech.SUCCESS) {
-      int result = tts.setLanguage(Locale.US);
+      int result = tts.setLanguage(Locale.KOREA);
       if (result == TextToSpeech.LANG_MISSING_DATA
               || result == TextToSpeech.LANG_NOT_SUPPORTED) {
         Log.e("TTS", "This Language is not supported");
