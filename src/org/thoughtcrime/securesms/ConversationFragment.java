@@ -61,6 +61,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
+import com.kakao.sdk.newtoneapi.TextToSpeechClient;
+
 import org.thoughtcrime.securesms.ConversationAdapter.HeaderViewHolder;
 import org.thoughtcrime.securesms.ConversationAdapter.ItemClickListener;
 import org.thoughtcrime.securesms.contactshare.ContactUtil;
@@ -130,6 +132,8 @@ public class ConversationFragment extends Fragment
   private View                        composeDivider;
   private View                        scrollToBottomButton;
   private TextView                    scrollDateHeader;
+
+  public TextToSpeechClient ttsClient;
 
   @Override
   public void onCreate(Bundle icicle) {
@@ -436,6 +440,7 @@ public class ConversationFragment extends Fragment
 
     if (!TextUtils.isEmpty(result))
         clipboard.setText(result);
+        ttsClient.play(result);
   }
 
   private void handleDeleteMessages(final Set<MessageRecord> messageRecords) {

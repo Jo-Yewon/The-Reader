@@ -69,6 +69,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.places.ui.PlacePicker;
+import com.kakao.sdk.newtoneapi.SpeechRecognizerManager;
+import com.kakao.sdk.newtoneapi.TextToSpeechClient;
+import com.kakao.sdk.newtoneapi.TextToSpeechListener;
+import com.kakao.sdk.newtoneapi.TextToSpeechManager;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -211,7 +215,8 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
                OnKeyboardShownListener,
                AttachmentDrawerListener,
                InputPanel.Listener,
-               InputPanel.MediaListener
+               InputPanel.MediaListener,
+        TextToSpeechListener
 {
   private static final String TAG = ConversationActivity.class.getSimpleName();
 
@@ -280,6 +285,16 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
   private final DynamicLanguage    dynamicLanguage = new DynamicLanguage();
 
   @Override
+  public void onError(int errorCode, String errorMsg) {
+    //TODO implement interface TextToSpeechListener method
+  }
+
+  @Override
+  public void onFinished() {
+    //TODO implement interface TextToSpeechListener method
+  }
+
+  @Override
   protected void onPreCreate() {
     dynamicTheme.onCreate(this);
     dynamicLanguage.onCreate(this);
@@ -298,7 +313,16 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
 
     getWindow().getDecorView().setBackgroundColor(color);
 
-    fragment = initFragment(R.id.fragment_content, new ConversationFragment(), dynamicLanguage.getCurrentLocale());
+    SpeechRecognizerManager.getInstance().initializeLibrary(this);
+    TextToSpeechManager.getInstance().initializeLibrary(getApplicationContext());
+    ConversationFragment temp= new ConversationFragment();
+    temp.ttsClient=new TextToSpeechClient.Builder()
+            .setSpeechMode(TextToSpeechClient.NEWTONE_TALK_1)     // 음성합성방식
+            .setSpeechSpeed(1.0)            // 발음 속도(0.5~4.0)
+            .setSpeechVoice(TextToSpeechClient.VOICE_WOMAN_READ_CALM)  //TTS 음색 모드 설정(여성 차분한 낭독체)
+            .setListener(this)
+            .build();
+    fragment = initFragment(R.id.fragment_content, temp, dynamicLanguage.getCurrentLocale());
 
     initializeReceivers();
     initializeActionBar();
