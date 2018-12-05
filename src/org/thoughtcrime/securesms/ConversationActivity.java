@@ -69,10 +69,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.places.ui.PlacePicker;
-import com.kakao.sdk.newtoneapi.SpeechRecognizerManager;
-import com.kakao.sdk.newtoneapi.TextToSpeechClient;
-import com.kakao.sdk.newtoneapi.TextToSpeechListener;
-import com.kakao.sdk.newtoneapi.TextToSpeechManager;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -200,6 +196,15 @@ import static org.thoughtcrime.securesms.TransportOption.Type;
 import static org.thoughtcrime.securesms.database.GroupDatabase.GroupRecord;
 import static org.whispersystems.libsignal.SessionCipher.SESSION_LOCK;
 
+import java.util.Locale;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+
 /**
  * Activity for displaying a message thread, as well as
  * composing/sending a new message into that thread.
@@ -216,7 +221,7 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
                AttachmentDrawerListener,
                InputPanel.Listener,
                InputPanel.MediaListener,
-        TextToSpeechListener
+        TextToSpeech.OnInitListener
 {
   private static final String TAG = ConversationActivity.class.getSimpleName();
 
@@ -284,14 +289,25 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
   private final DynamicTheme       dynamicTheme    = new DynamicTheme();
   private final DynamicLanguage    dynamicLanguage = new DynamicLanguage();
 
-  @Override
-  public void onError(int errorCode, String errorMsg) {
-    //TODO implement interface TextToSpeechListener method
-  }
+  private TextToSpeech tts;
 
   @Override
-  public void onFinished() {
-    //TODO implement interface TextToSpeechListener method
+  public void onInit(int status) {
+    if (status == TextToSpeech.SUCCESS) {
+      int result = tts.setLanguage(Locale.US);
+      if (result == TextToSpeech.LANG_MISSING_DATA
+              || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+        Log.e("TTS", "This Language is not supported");
+      } else {
+        speakOut();
+      }
+    } else {
+      Log.e("TTS", "Initilization Failed!");
+    }
+  }
+
+  private void speakOut() {
+    tts.speak("hello", TextToSpeech.QUEUE_FLUSH, null);
   }
 
   @Override
@@ -313,16 +329,7 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
 
     getWindow().getDecorView().setBackgroundColor(color);
 
-    SpeechRecognizerManager.getInstance().initializeLibrary(this);
-    TextToSpeechManager.getInstance().initializeLibrary(getApplicationContext());
-    ConversationFragment temp= new ConversationFragment();
-    temp.ttsClient=new TextToSpeechClient.Builder()
-            .setSpeechMode(TextToSpeechClient.NEWTONE_TALK_1)     // 음성합성방식
-            .setSpeechSpeed(1.0)            // 발음 속도(0.5~4.0)
-            .setSpeechVoice(TextToSpeechClient.VOICE_WOMAN_READ_CALM)  //TTS 음색 모드 설정(여성 차분한 낭독체)
-            .setListener(this)
-            .build();
-    fragment = initFragment(R.id.fragment_content, temp, dynamicLanguage.getCurrentLocale());
+    fragment = initFragment(R.id.fragment_content, new ConversationFragment(), dynamicLanguage.getCurrentLocale());
 
     initializeReceivers();
     initializeActionBar();
@@ -353,6 +360,8 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
         });
       }
     });
+    tts = new TextToSpeech(this, this);
+    speakOut();
   }
 
   @Override

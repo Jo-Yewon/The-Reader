@@ -133,7 +133,6 @@ public class ConversationFragment extends Fragment
   private View                        scrollToBottomButton;
   private TextView                    scrollDateHeader;
 
-  public TextToSpeechClient ttsClient;
 
   @Override
   public void onCreate(Bundle icicle) {
@@ -450,8 +449,7 @@ public class ConversationFragment extends Fragment
     String result = bodyBuilder.toString();
 
     if (!TextUtils.isEmpty(result))
-        clipboard.setText(result);
-        ttsClient.play(result);
+       clipboard.setText(result);
   }
 
   private void handleDeleteMessages(final Set<MessageRecord> messageRecords) {
