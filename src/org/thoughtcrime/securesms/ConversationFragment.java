@@ -27,6 +27,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.speech.tts.TextToSpeech;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -133,6 +134,7 @@ public class ConversationFragment extends Fragment
   private View                        scrollToBottomButton;
   private TextView                    scrollDateHeader;
 
+  public TextToSpeech tts;
 
   @Override
   public void onCreate(Bundle icicle) {
@@ -449,7 +451,7 @@ public class ConversationFragment extends Fragment
     String result = bodyBuilder.toString();
 
     if (!TextUtils.isEmpty(result))
-       clipboard.setText(result);
+       tts.speak(result,TextToSpeech.QUEUE_FLUSH,null);
   }
 
   private void handleDeleteMessages(final Set<MessageRecord> messageRecords) {
@@ -910,7 +912,7 @@ public class ConversationFragment extends Fragment
     private int statusBarColor;
 
     @Override
-    public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+    public boolean onCreateActionMode(ActionMode mode, Menu menu) { //메시지 꾹 누르면 ActionMode로 들어감
       MenuInflater inflater = mode.getMenuInflater();
       inflater.inflate(R.menu.conversation_context, menu);
 

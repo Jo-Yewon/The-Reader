@@ -292,22 +292,16 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
   private TextToSpeech tts;
 
   @Override
-  public void onInit(int status) {
+  public void onInit(int status) { //for OninitListener
     if (status == TextToSpeech.SUCCESS) {
       int result = tts.setLanguage(Locale.US);
       if (result == TextToSpeech.LANG_MISSING_DATA
               || result == TextToSpeech.LANG_NOT_SUPPORTED) {
         Log.e("TTS", "This Language is not supported");
-      } else {
-        speakOut();
-      }
+      } else { }
     } else {
       Log.e("TTS", "Initilization Failed!");
     }
-  }
-
-  private void speakOut() {
-    tts.speak("hello", TextToSpeech.QUEUE_FLUSH, null);
   }
 
   @Override
@@ -329,7 +323,11 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
 
     getWindow().getDecorView().setBackgroundColor(color);
 
-    fragment = initFragment(R.id.fragment_content, new ConversationFragment(), dynamicLanguage.getCurrentLocale());
+
+    ConversationFragment temp=new ConversationFragment();
+    tts=new TextToSpeech(this, this);
+    temp.tts=tts;
+    fragment = initFragment(R.id.fragment_content, temp, dynamicLanguage.getCurrentLocale());
 
     initializeReceivers();
     initializeActionBar();
@@ -360,8 +358,6 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
         });
       }
     });
-    tts = new TextToSpeech(this, this);
-    speakOut();
   }
 
   @Override
