@@ -275,6 +275,7 @@
         <item>@string/arrays__normal</item>
         <item>@string/arrays__large</item>
         <item>@string/arrays__extra_large</item>
+        <item>@string/arrays__extra_extra_large</item>
     </string-array>
 
     <string-array name="pref_message_font_size_values">
@@ -282,6 +283,7 @@
         <item>16</item>
         <item>20</item>
         <item>30</item>
+        <item>50</item>
     </string-array>
 
     <string-array name="pref_notification_priority_entries">

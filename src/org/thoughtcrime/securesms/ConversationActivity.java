@@ -1818,7 +1818,7 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
     }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, threadId);
   }
 
-  protected void sendComplete(long threadId) {
+  protected void sendComplete(long threadId) {  //메시지보내기성공
     boolean refreshFragment = (threadId != this.threadId);
     this.threadId = threadId;
 

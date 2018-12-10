@@ -1113,6 +1113,7 @@
     <string name="arrays__normal">Normal</string>
     <string name="arrays__large">Large</string>
     <string name="arrays__extra_large">Extra large</string>
+    <string name="arrays__extra_extra_large">Extra Extra large</string>
 
     <string name="arrays__default">Default</string>
     <string name="arrays__high">High</string>

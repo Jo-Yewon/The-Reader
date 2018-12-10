@@ -778,6 +778,12 @@
   <string name="preferences_advanced__use_system_emoji">시스템 이모티콘 사용</string>
   <string name="preferences_advanced__disable_signal_built_in_emoji_support">Signal 이모티콘 사용 중지</string>
   <string name="preferences_notifications__ringtone">알림 벨소리</string>
+
+  <!--글자 크기 한글 추가-->
+  <string name="arrays__small">작음</string>
+  <string name="arrays__large">큼</string>
+  <string name="arrays__extra_large">매우 큼</string>
+  <string name="arrays__extra_extra_large">진짜진짜 큼</string>
   <!--****************************************-->
   <!--menus-->
   <!--****************************************-->
