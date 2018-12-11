@@ -454,7 +454,6 @@
         <item name="shared_contact_item_button_color">@color/core_grey_85</item>
     </style>
 
-    /* 고대비 테마 추가 */
     <style name="TextSecure.HighContrastTheme" parent="@style/Theme.AppCompat">
         <item name="theme_type">dark</item>
         <item name="actionBarStyle">@style/TextSecure.DarkActionBar</item>

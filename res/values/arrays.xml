@@ -116,6 +116,7 @@
   <string-array name="pref_theme_values" translatable="false">
       <item>light</item>
       <item>dark</item>
+      <item>고대비</item>
   </string-array>
 
   <string-array name="pref_led_color_entries">

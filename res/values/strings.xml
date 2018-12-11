@@ -1194,7 +1194,7 @@
     <string name="preferences__linked_devices">Linked devices</string>
     <string name="preferences__light_theme">Light</string>
     <string name="preferences__dark_theme">Dark</string>
-    <string name="preferences__highcontrast_theme">HighLight</string>  /* 고대비 테마 추가 */
+    <string name="preferences__highcontrast_theme">HighLight</string>
     <string name="preferences__appearance">Appearance</string>
     <string name="preferences__default">Default</string>
     <string name="preferences__language">Language</string>
