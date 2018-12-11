@@ -1113,7 +1113,11 @@
     <string name="arrays__normal">Normal</string>
     <string name="arrays__large">Large</string>
     <string name="arrays__extra_large">Extra large</string>
-    <string name="arrays__extra_extra_large">Extra Extra large</string>
+    <string name="arrays__font_50">Font 50</string>
+    <string name="arrays__font_60">Font 60</string>
+    <string name="arrays__font_70">Font 70</string>
+    <string name="arrays__font_80">Font 80</string>
+    <string name="arrays__font_90">Font 90</string>
 
     <string name="arrays__default">Default</string>
     <string name="arrays__high">High</string>
@@ -1190,8 +1194,8 @@
     <string name="preferences__linked_devices">Linked devices</string>
     <string name="preferences__light_theme">Light</string>
     <string name="preferences__dark_theme">Dark</string>
+    <string name="preferences__highcontrast_theme">HighLight</string>  /* 고대비 테마 추가 */
     <string name="preferences__appearance">Appearance</string>
-    <string name="preferences__theme">Theme</string>
     <string name="preferences__default">Default</string>
     <string name="preferences__language">Language</string>
     <string name="preferences__signal_messages_and_calls">Signal messages and calls</string>

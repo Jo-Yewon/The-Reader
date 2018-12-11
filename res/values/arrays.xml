@@ -110,6 +110,7 @@
     <string-array name="pref_theme_entries">
       <item>@string/preferences__light_theme</item>
       <item>@string/preferences__dark_theme</item>
+      <item>@string/preferences__highcontrast_theme</item>
   </string-array>
 
   <string-array name="pref_theme_values" translatable="false">
@@ -275,7 +276,11 @@
         <item>@string/arrays__normal</item>
         <item>@string/arrays__large</item>
         <item>@string/arrays__extra_large</item>
-        <item>@string/arrays__extra_extra_large</item>
+        <item>@string/arrays__font_50</item>
+        <item>@string/arrays__font_60</item>
+        <item>@string/arrays__font_70</item>
+        <item>@string/arrays__font_80</item>
+        <item>@string/arrays__font_90</item>
     </string-array>
 
     <string-array name="pref_message_font_size_values">
@@ -284,6 +289,10 @@
         <item>20</item>
         <item>30</item>
         <item>50</item>
+        <item>60</item>
+        <item>70</item>
+        <item>80</item>
+        <item>90</item>
     </string-array>
 
     <string-array name="pref_notification_priority_entries">

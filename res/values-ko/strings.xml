@@ -693,7 +693,6 @@
   <string name="arrays__audio">오디오</string>
   <string name="arrays__video">동영상</string>
   <string name="arrays__documents">문서들</string>
-  <string name="arrays__normal">보통</string>
   <!--plurals.xml-->
   <plurals name="hours_ago">
     <item quantity="other">%d시간 전</item>
@@ -760,6 +759,7 @@
   <string name="preferences__linked_devices">연결된 기기</string>
   <string name="preferences__light_theme">밝게</string>
   <string name="preferences__dark_theme">어둡게</string>
+  <string name="preferences__highcontrast_theme">고대비</string> /* 고대비 테마 추가 */
   <string name="preferences__appearance">모양</string>
   <string name="preferences__theme">테마</string>
   <string name="preferences__default">기본</string>
@@ -781,9 +781,14 @@
 
   <!--글자 크기 한글 추가-->
   <string name="arrays__small">작음</string>
+  <string name="arrays__normal">보통</string>
   <string name="arrays__large">큼</string>
   <string name="arrays__extra_large">매우 큼</string>
-  <string name="arrays__extra_extra_large">진짜진짜 큼</string>
+  <string name="arrays__font_50">글자 크기 : 50</string>
+  <string name="arrays__font_60">글자 크기 : 60</string>
+  <string name="arrays__font_70">글자 크기 : 70</string>
+  <string name="arrays__font_80">글자 크기 : 80</string>
+  <string name="arrays__font_90">글자 크기 : 90</string>
   <!--****************************************-->
   <!--menus-->
   <!--****************************************-->
