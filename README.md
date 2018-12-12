@@ -7,11 +7,43 @@
 앱 설치 방법 및 사용법
 
 ## 주요기능 및 관련코드
-1. 음성합성
+1.UI
 
-2. 음성인식
+2. 음성합성
+~~~
+private void readVoiceMessage(final Set<MessageRecord> messageRecords) {
+   List<MessageRecord> messageList = new LinkedList<>(messageRecords);
+    Collections.sort(messageList, new Comparator<MessageRecord>() {
+      @Override
+      public int compare(MessageRecord lhs, MessageRecord rhs) {
+        if      (lhs.getDateReceived() < rhs.getDateReceived())  return -1;
+        else if (lhs.getDateReceived() == rhs.getDateReceived()) return 0;
+        else                                                     return 1;
+      }
+    });
 
-3. 키워드 분류 및 이모티콘 전송
+    StringBuilder    bodyBuilder = new StringBuilder();
+
+    for (MessageRecord messageRecord : messageList) {
+      String body = messageRecord.getDisplayBody().toString();
+      if (!TextUtils.isEmpty(body)) {
+        bodyBuilder.append(body).append('\n');
+      }
+    }
+    if (bodyBuilder.length() > 0 && bodyBuilder.charAt(bodyBuilder.length() - 1) == '\n') {
+      bodyBuilder.deleteCharAt(bodyBuilder.length() - 1);
+    }
+
+    String result = bodyBuilder.toString();
+
+    if (!TextUtils.isEmpty(result))
+       tts.speak(result,TextToSpeech.QUEUE_FLUSH,null);
+  }
+ ~~~
+  
+3. 음성인식
+
+4. 키워드 분류 및 이모티콘 전송
 
 
 ## 사용한 API
