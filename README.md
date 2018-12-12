@@ -3,15 +3,15 @@
  음성인식(Speech-To-Text)을 통해 사용자가 음성으로 말한 내용을 텍스트로 바꿔준다.또 단순한 음성인식 기능에서 더 나아가 음성인식된 키워드를 중심으로
  관련 이모티콘을 전송하여 시각장애인들의 표현의 다양성을 높이면서 더 편리하게 메시지를 주고 받을 수 있도록 제작한 안드로이드 기반의 어플리케이션이다.
 
-## How to use
+# 1.How to use
 앱 설치 방법 및 사용법
 
-## 주요기능 및 관련코드
+# 2.주요기능 및 관련코드
 
-1.UI
+2.1 UI
 --
 
-2.음성합성
+2.2 음성합성
 --
 ```javascript
 private void readVoiceMessage(final Set<MessageRecord> messageRecords) {
@@ -44,28 +44,33 @@ private void readVoiceMessage(final Set<MessageRecord> messageRecords) {
   }
  ```
   
-3.음성인식
+2.3 음성인식
 --
 
-4.키워드 분류 및 이모티콘 전송
+2.4 키워드 분류 및 이모티콘 전송
 --
 
 
-## 사용한 API
+## 3.사용한 API
 siganl-android https://github.com/youngji-koh/Signal-Android
 
-## 개발자 정보
-1515003 고영지(youngji-koh) - 사용자 인터페이스, 음성합성 담당
-- Youngji : 글씨크기 조절 기능 추가, 고대비 테마 추가, 발표자료 담당
+## 4.개발자 정보
+1515003 고영지(youngji-koh) - 사용자 인터페이스 및 음성합성 기능 구현
+- Youngji : 글씨 크기 조절 기능 추가, 고대비 테마 추가, 음성합성 기능 구현, 중간 발표자료 담당
 
-1615035 신유진(jellyb3ar) - 음성인식 담당
-- jellyb3ar : 음성인식
+1615035 신유진(jellyb3ar) - 음성인식 및 키워드 분류 기능 기능 구현
+- jellyb3ar : 음성인식 및 키워드에 따른 이모티콘 전송 기능 구현, 중간 발표자료 담당
 
-1771018 김혜지(kimhj5854) - 음성인식 담당
-- Maeg :
+1771018 김혜지(kimhj5854) - 음성인식 및 키워드 분류 기능 구현
+- Maeg : 음성인식 및 키워드에 따른 이모티콘 전송 기능 구현, 
 
-1771104 조예원(QueenCurry) - 음성합성, 사용자 인터페이스 담당
-- JoYewon : 카카오 앱키 설정, 음성합성 기능 구현, 발표자료 담당
+
+1771045 이지은(Iamjieun) - 음성인식 및 키워드 분류 담당
+-
+
+1771104 조예원(QueenCurry) - 음성합성 기능 및 사용자 인터페이스 구현
+- JoYewon : 카카오 앱 키 설정, 음성합성 기능 구현, 글씨 크기 조절 기능 추가, 중간 발표자료 담당
+
 
 ## License
 
