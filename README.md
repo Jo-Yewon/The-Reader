@@ -7,10 +7,12 @@
 앱 설치 방법 및 사용법
 
 ## 주요기능 및 관련코드
+
 1.UI
+--
 
-2. 음성합성
-
+2.음성합성
+--
 ```javascript
 private void readVoiceMessage(final Set<MessageRecord> messageRecords) {
    List<MessageRecord> messageList = new LinkedList<>(messageRecords);
@@ -42,13 +44,15 @@ private void readVoiceMessage(final Set<MessageRecord> messageRecords) {
   }
  ```
   
-3. 음성인식
+3.음성인식
+--
 
-4. 키워드 분류 및 이모티콘 전송
+4.키워드 분류 및 이모티콘 전송
+--
 
 
 ## 사용한 API
-#siganl-android https://github.com/youngji-koh/Signal-Android
+siganl-android https://github.com/youngji-koh/Signal-Android
 
 ## 개발자 정보
 1515003 고영지(youngji-koh) - 사용자 인터페이스, 음성합성 담당
