@@ -56,10 +56,10 @@ siganl-android https://github.com/youngji-koh/Signal-Android
 
 ## 4.개발자 정보
 1515003 고영지(youngji-koh) - 사용자 인터페이스 및 음성합성 기능 구현
-- Youngji : 글씨 크기 조절 기능 추가, 고대비 테마 추가, 음성합성 기능 구현, 중간 발표자료 담당
+- Youngji : 글씨 크기 조절 기능 추가, 고대비 테마 추가, 음성합성 기능 구현 담당
 
 1615035 신유진(jellyb3ar) - 음성인식 및 키워드 분류 기능 기능 구현
-- jellyb3ar : 음성인식 및 키워드에 따른 이모티콘 전송 기능 구현, 중간 발표자료 담당
+- jellyb3ar : 음성인식 및 키워드에 따른 이모티콘 전송 기능 구현 담당
 
 1771018 김혜지(kimhj5854) - 음성인식 및 키워드 분류 기능 구현
 - Maeg : 음성인식 및 키워드에 따른 이모티콘 전송 기능 구현, 
@@ -69,7 +69,7 @@ siganl-android https://github.com/youngji-koh/Signal-Android
 -
 
 1771104 조예원(QueenCurry) - 음성합성 기능 및 사용자 인터페이스 구현
-- JoYewon : 카카오 앱 키 설정, 음성합성 기능 구현, 글씨 크기 조절 기능 추가, 중간 발표자료 담당
+- JoYewon : 카카오 앱 키 설정, 음성합성 기능 구현, 글씨 크기 조절 기능 추가, 발표자료 담당
 
 
 ## License
