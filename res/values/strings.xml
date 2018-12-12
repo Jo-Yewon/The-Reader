@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="kakao_app_key">c63f900123138ae35265697a9f9bb610 </string> //카카오 앱키 추가
+    <string name="kakao_app_key">c63f900123138ae35265697a9f9bb610 </string>
+    //카카오 앱키 추가
 
     <string name="app_name">Signal</string>
     <string name="yes">Yes</string>
