@@ -1,48 +1,84 @@
 # 더 리더 The Reader
- > 더 리더는 시각장애인을 위한 메신저 어플리케이션으로 음성합성(Text-To-Speech)을 통해 사용자가 받은 메시지를 음성으로 들려주고 
- 음성인식(Speech-To-Text)을 통해 사용자가 음성으로 말한 내용을 텍스트로 바꿔준다.또 단순한 음성인식 기능에서 더 나아가 음성인식된 키워드를 중심으로
- 관련 이모티콘을 전송하여 시각장애인들의 표현의 다양성을 높이면서 더 편리하게 메시지를 주고 받을 수 있도록 제작한 안드로이드 기반의 어플리케이션이다.
+ > 더 리더는 시각장애인을 위한 메신저 어플리케이션으로 음성합성(Text-To-Speech)을 통해 사용자가 받은 메시지를 음성으로 들려주고 음성인식(Speech-To-Text)을 통해 사용자가 음성으로 말한 내용을 텍스트로 바꿔준다. 또 단순한 음성인식 기능에서 더 나아가, 음성인식된 키워드를 중심으로 관련 이모티콘을 전송하여 시각장애인들의 표현의 다양성을 높이면서 더 편리하게 메시지를 주고 받을 수 있도록 제작한 안드로이드 기반의 어플리케이션이다.
 
-# 1.How to use
+# 1. How to use
 앱 설치 방법 및 사용법
 
-# 2.주요기능 및 관련코드
+# 2. 주요기능 및 관련코드
 
 2.1 UI
 --
 
-2.2 음성합성
+2.2 메세지 및 대체 텍스트를 음성합성
 --
 ```javascript
-private void readVoiceMessage(final Set<MessageRecord> messageRecords) {
-   List<MessageRecord> messageList = new LinkedList<>(messageRecords);
-    Collections.sort(messageList, new Comparator<MessageRecord>() {
-      @Override
-      public int compare(MessageRecord lhs, MessageRecord rhs) {
-        if      (lhs.getDateReceived() < rhs.getDateReceived())  return -1;
-        else if (lhs.getDateReceived() == rhs.getDateReceived()) return 0;
-        else                                                     return 1;
-      }
-    });
+ public class ConversationActivity extends PassphraseRequiredActionBarActivity implements TextToSpeech.OnInitListener {
+     //중략
+     private ConversationFragment fragment;
+     private TextToSpeech tts;
+     
+     @Override
+     protected void onCreate(Bundle state, boolean ready) {
+         //중략
+         ConversationFragment temp=new ConversationFragment();
+         tts=new TextToSpeech(this, this);
+         temp.tts=tts;
+         fragment = initFragment(R.id.fragment_content, temp, dynamicLanguage.getCurrentLocale());
+         //중략
+     }
+     
+     @Override
+     public void onInit(int status) { //for OninitListener 
+         if (status == TextToSpeech.SUCCESS) { 
+             int result = tts.setLanguage(Locale.KOREA); 
+             if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) { 
+                 Log.e("TTS", "This Language is not supported"); 
+             } else { }
+         } else {
+             Log.e("TTS", "Initilization Failed!");
+         }
+     }
+     //중략
+ }
+````
 
-    StringBuilder    bodyBuilder = new StringBuilder();
+````javascript
+public class ConversationFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
+    //중략
+    public TextToSpeech tts;
+    
+    private void readVoiceMessage(final Set<MessageRecord> messageRecords) {
+        List<MessageRecord> messageList = new LinkedList<>(messageRecords);
+        Collections.sort(messageList, new Comparator<MessageRecord>() {
+            @Override
+            public int compare(MessageRecord lhs, MessageRecord rhs) {
+                if      (lhs.getDateReceived() < rhs.getDateReceived())  return -1;
+                else if (lhs.getDateReceived() == rhs.getDateReceived()) return 0;
+                else                                                     return 1;
+            }
+        });
 
-    for (MessageRecord messageRecord : messageList) {
-      String body = messageRecord.getDisplayBody().toString();
-      if (!TextUtils.isEmpty(body)) {
-        bodyBuilder.append(body).append('\n');
-      }
-    }
-    if (bodyBuilder.length() > 0 && bodyBuilder.charAt(bodyBuilder.length() - 1) == '\n') {
-      bodyBuilder.deleteCharAt(bodyBuilder.length() - 1);
-    }
+        StringBuilder    bodyBuilder = new StringBuilder();
 
-    String result = bodyBuilder.toString();
+        for (MessageRecord messageRecord : messageList) {
+            String body = messageRecord.getDisplayBody().toString();
+            if (!TextUtils.isEmpty(body)) {
+                bodyBuilder.append(body).append('\n');
+            }
+        }
+        if (bodyBuilder.length() > 0 && bodyBuilder.charAt(bodyBuilder.length() - 1) == '\n') {
+            bodyBuilder.deleteCharAt(bodyBuilder.length() - 1);
+        }
 
-    if (!TextUtils.isEmpty(result))
-       tts.speak(result,TextToSpeech.QUEUE_FLUSH,null);
-  }
- ```
+        String result = bodyBuilder.toString();
+
+        if (!TextUtils.isEmpty(result))
+           tts.speak(result,TextToSpeech.QUEUE_FLUSH,null);
+   }
+   
+   //중략
+}
+````
   
 2.3 음성인식
 --
@@ -64,9 +100,8 @@ siganl-android https://github.com/youngji-koh/Signal-Android
 1771018 김혜지(kimhj5854) - 음성인식 및 키워드 분류 기능 구현
 - Maeg : 음성인식 및 키워드에 따른 이모티콘 전송 기능 구현, 
 
-
-1771045 이지은(Iamjieun) - 음성인식 및 키워드 분류 담당
--
+1771045 이지은(Iamjieun) - 음성인식 및 키워드 분류 기능 구현 
+ - Iamjieun : 음성인식 및 키워드에 따른 이모티콘 전송 기능 구현, 이모티콘 데이터베이스
 
 1771104 조예원(QueenCurry) - 음성합성 기능 및 사용자 인터페이스 구현
 - JoYewon : 카카오 앱 키 설정, 음성합성 기능 구현, 글씨 크기 조절 기능 추가, 발표자료 담당
