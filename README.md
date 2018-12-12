@@ -123,13 +123,15 @@ public class ConversationFragment extends Fragment implements LoaderManager.Load
 --
 
 
-# 3.사용한 API
+# 3. 사용한 API
 Signal-android            https://github.com/signalapp/Signal-Android
+
 kakao Newtone api         https://developers.kakao.com/docs/android/speech
+
 Android Text-to-Speech    https://developer.android.com/reference/android/speech/tts/TextToSpeech     
 
 
-# 4.개발자 정보
+# 4. 개발자 정보
 1515003 고영지(youngji-koh) - 사용자 인터페이스 및 음성합성 기능 구현
 - Youngji : 글씨 크기 조절 기능 추가, 고대비 테마 추가, 음성합성 기능 구현 담당
 
@@ -144,6 +146,7 @@ Android Text-to-Speech    https://developer.android.com/reference/android/speech
 
 1771104 조예원(QueenCurry) - 음성합성 기능 및 사용자 인터페이스 구현
 - JoYewon : 카카오 앱 키 설정, 음성합성 기능 구현, 글씨 크기 조절 기능 추가, 발표자료 담당
+- QueenCurry-README : Readme.md 작성
 
 
 # License
