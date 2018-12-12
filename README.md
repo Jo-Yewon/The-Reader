@@ -8,9 +8,12 @@
 
 2.1 UI
 --
+<img src = './artwork/fontImage.png' width = '200' height = '' /> <img src = './artwork/fontImage2.png' width = '200' height = '' />
 
 2.2 메세지 및 대체 텍스트를 음성합성
 --
+<img src = './artwork/ttsImage.png' width = '200' height = '' />
+
 ```javascript
  public class ConversationActivity extends PassphraseRequiredActionBarActivity
                                    implements TextToSpeech.OnInitListener {
