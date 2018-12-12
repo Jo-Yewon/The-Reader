@@ -10,7 +10,8 @@
 1.UI
 
 2. 음성합성
-~~~
+
+```javascript
 private void readVoiceMessage(final Set<MessageRecord> messageRecords) {
    List<MessageRecord> messageList = new LinkedList<>(messageRecords);
     Collections.sort(messageList, new Comparator<MessageRecord>() {
@@ -39,7 +40,7 @@ private void readVoiceMessage(final Set<MessageRecord> messageRecords) {
     if (!TextUtils.isEmpty(result))
        tts.speak(result,TextToSpeech.QUEUE_FLUSH,null);
   }
- ~~~
+ ```
   
 3. 음성인식
 
