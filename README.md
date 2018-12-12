@@ -2,17 +2,25 @@
  > 더 리더는 시각장애인을 위한 메신저 어플리케이션으로 음성합성(Text-To-Speech)을 통해 사용자가 받은 메시지를 음성으로 들려주고 음성인식(Speech-To-Text)을 통해 사용자가 음성으로 말한 내용을 텍스트로 바꿔준다. 또 단순한 음성인식 기능에서 더 나아가, 음성인식된 키워드를 중심으로 관련 이모티콘을 전송하여 시각장애인들의 표현의 다양성을 높이면서 더 편리하게 메시지를 주고 받을 수 있도록 제작한 안드로이드 기반의 어플리케이션이다.
 
 # 1. How to use
+
 앱 설치 방법 및 사용법
+
+APK 추출해서 다운로드 링크 걸기
 
 # 2. 주요 기능 및 코드
 
 2.1 UI
 --
-<img src = './artwork/fontImage.png' width = '200' height = '' /> <img src = './artwork/fontImage2.png' width = '200' height = '' />
+<img src = './artwork/fontImage.png' width = '200' height = '' /> <img src = './artwork/fontImage2.jpg' width = '200' height = '' />
 
 2.2 메세지 및 대체 텍스트를 음성합성
 --
-<img src = './artwork/ttsImage.png' width = '200' height = '' />
+
+메세지를 선택 후 화면 왼쪽 상단의 재생버튼을 클릭하면 음성으로 변환한다. 여러개의 메세지를 한번에 음성합성 하는 것도 가능하며, 이모지도 대체텍스트를 이용하여 음성화한다.
+
+<img src = './artwork/ttsImage.jpg' width = '200' height = '' />
+
+ConversationActivity는 TextToSpeech.OnInitListener를 구현하는 클래스이다. TextToSpeech 객체의 생성은 onCreate()에서 이루어지며, 생성과 동시에 onInit() 메서드를 통해 한국어로 음성합성되도록 설정된다. 이 객체를 fragment 생성시에 전달하여, fragment 내에서 음성합성 기능을 이용할 수 있도록 한다. TextToSpeech 엔진은 대화창이 종료되는 onDestroy()에서 함께 종료된다.
 
 ```javascript
  public class ConversationActivity extends PassphraseRequiredActionBarActivity
@@ -56,6 +64,8 @@
      //중략
  }
 ````
+
+ConversationFragment는 대화창의 메시지 부분을 구현하는 클래스이다. 인스턴스 변수인 TextToSpeech는 ConversationActivity에서 객체를 생성할 때 넘겨받게 된다. 메시지를 선택하면 ActionMode가 되며, 왼쪽 상단의 재생 버튼을 클릭시 onActionItemClicked()를 통해 readVoiceMessage()를 호출하게 된다. readVoiceMessage()에서는 List에 선택된 메시지를 모은 후, StringBuilder를 사용하여 순차적으로 String으로 변환한다. 그리고 마지막으로 변환한 String을 tts 엔진을 이용하여 음성합성한다.
 
 ````javascript
 public class ConversationFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
