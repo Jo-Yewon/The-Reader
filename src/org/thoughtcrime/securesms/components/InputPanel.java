@@ -114,6 +114,7 @@ public class InputPanel extends LinearLayout
     this.listener = listener;
 
     emojiToggle.setOnClickListener(v -> listener.onEmojiToggle());
+    emojiToggle.setOnLongClickListener(v -> listener.onEmojiVoice()); //이모지 버튼 longClick 되었을때,
   }
 
   public void setMediaListener(@NonNull MediaListener listener) {
@@ -245,6 +246,7 @@ public class InputPanel extends LinearLayout
     void onRecorderCanceled();
     void onRecorderPermissionRequired();
     void onEmojiToggle();
+    boolean onEmojiVoice();
   }
 
   private static class SlideToCancel {

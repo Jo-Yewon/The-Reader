@@ -456,6 +456,10 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
     saveDraft();
     if (recipient != null)               recipient.removeListener(this);
     if (securityUpdateReceiver != null)  unregisterReceiver(securityUpdateReceiver);
+    if (tts!=null){
+      tts.stop();
+      tts.shutdown();
+    }
     super.onDestroy();
   }
 
@@ -2136,6 +2140,13 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
     } else {
       container.show(composeText, emojiDrawerStub.get());
     }
+  }
+
+  @Override
+  public boolean onEmojiVoice(){ //이모지 버튼 길게 눌러졌을 때 음성인식 실행
+    Toast.makeText(getApplicationContext(),"이모지 롱클릭",Toast.LENGTH_SHORT).show();
+    return true;
+    //return false; //이 메서드에서 이벤트에 대한 처리를 끝내지 못하므로
   }
 
   @Override
