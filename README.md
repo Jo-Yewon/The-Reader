@@ -4,7 +4,7 @@
 # 1. How to use
 앱 설치 방법 및 사용법
 
-# 2. 주요기능 및 관련코드
+# 2. 주요 기능 및 코드
 
 2.1 UI
 --
@@ -12,7 +12,8 @@
 2.2 메세지 및 대체 텍스트를 음성합성
 --
 ```javascript
- public class ConversationActivity extends PassphraseRequiredActionBarActivity implements TextToSpeech.OnInitListener {
+ public class ConversationActivity extends PassphraseRequiredActionBarActivity
+                                   implements TextToSpeech.OnInitListener {
      //중략
      private ConversationFragment fragment;
      private TextToSpeech tts;
@@ -38,6 +39,17 @@
              Log.e("TTS", "Initilization Failed!");
          }
      }
+     
+     @Override
+     public void onDestroy() {
+         //중략
+         if (tts != null) {
+             tts.stop();
+             tts.shutdown();
+         }
+         super.onDestroy();
+     }
+     
      //중략
  }
 ````
@@ -58,7 +70,7 @@ public class ConversationFragment extends Fragment implements LoaderManager.Load
             }
         });
 
-        StringBuilder    bodyBuilder = new StringBuilder();
+        StringBuilder bodyBuilder = new StringBuilder();
 
         for (MessageRecord messageRecord : messageList) {
             String body = messageRecord.getDisplayBody().toString();
@@ -76,6 +88,17 @@ public class ConversationFragment extends Fragment implements LoaderManager.Load
            tts.speak(result,TextToSpeech.QUEUE_FLUSH,null);
    }
    
+   @Override
+   public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+       switch(item.getItemId()) {
+           case R.id.menu_context_voice:
+               readVoiceMessage(getListAdapter().getSelectedItems());
+               actionMode.finish();
+               return true;
+           //중략
+       }
+   }
+   
    //중략
 }
 ````
@@ -87,27 +110,30 @@ public class ConversationFragment extends Fragment implements LoaderManager.Load
 --
 
 
-## 3.사용한 API
-siganl-android https://github.com/youngji-koh/Signal-Android
+# 3.사용한 API
+Signal-android            https://github.com/signalapp/Signal-Android
+kakao Newtone api         https://developers.kakao.com/docs/android/speech
+Android Text-to-Speech    https://developer.android.com/reference/android/speech/tts/TextToSpeech     
 
-## 4.개발자 정보
+
+# 4.개발자 정보
 1515003 고영지(youngji-koh) - 사용자 인터페이스 및 음성합성 기능 구현
 - Youngji : 글씨 크기 조절 기능 추가, 고대비 테마 추가, 음성합성 기능 구현 담당
 
-1615035 신유진(jellyb3ar) - 음성인식 및 키워드 분류 기능 기능 구현
+1615035 신유진(jellyb3ar) - 음성인식 및 키워드 분류 기능 구현
 - jellyb3ar : 음성인식 및 키워드에 따른 이모티콘 전송 기능 구현 담당
 
 1771018 김혜지(kimhj5854) - 음성인식 및 키워드 분류 기능 구현
 - Maeg : 음성인식 및 키워드에 따른 이모티콘 전송 기능 구현, 
 
 1771045 이지은(Iamjieun) - 음성인식 및 키워드 분류 기능 구현 
- - Iamjieun : 음성인식 및 키워드에 따른 이모티콘 전송 기능 구현, 이모티콘 데이터베이스
+- Iamjieun : 음성인식 및 키워드에 따른 이모티콘 전송 기능 구현, 이모티콘 데이터베이스
 
 1771104 조예원(QueenCurry) - 음성합성 기능 및 사용자 인터페이스 구현
 - JoYewon : 카카오 앱 키 설정, 음성합성 기능 구현, 글씨 크기 조절 기능 추가, 발표자료 담당
 
 
-## License
+# License
 
 Copyright 2011 Whisper Systems
 
