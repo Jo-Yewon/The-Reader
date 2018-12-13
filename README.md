@@ -11,7 +11,51 @@ APK 추출해서 다운로드 링크 걸기
 
 2.1 UI
 --
+
+사용자의 편의에 따라 글씨 크기 및 이모지의 크기를 세부적으로 선택할 수 있다. 예를 들어 저시력 사용자는 메시지를 크게하고, 터널시야 증상을 가진 사용자는 메시지를 작게하여 보다 편하게 메시지를 읽을 수 있을 것이다.
+
 <img src = './artwork/fontImage.png' width = '200' height = '' /> <img src = './artwork/fontImage2.jpg' width = '200' height = '' />
+
+```javascript
+public class ChatsPreferenceFragment extends ListSummaryPreferenceFragment {
+    //중략
+    @Override
+    public void onCreate(Bundle paramBundle) {
+        //중략
+        findPreference(TextSecurePreferences.MESSAGE_BODY_TEXT_SIZE_PREF)
+            .setOnPreferenceChangeListener(new ListSummaryListener());
+       
+        initializeListSummary((ListPreference) findPreference(TextSecurePreferences.MESSAGE_BODY_TEXT_SIZE_PREF));
+        //중략
+    }
+    //중략
+}
+```
+
+```javascript
+<string-array name="pref_message_font_size_entries">
+        <!--중략-->
+        <item>@string/arrays__font_50</item>
+        <item>@string/arrays__font_60</item>
+        <item>@string/arrays__font_70</item>
+        <item>@string/arrays__font_80</item>
+        <item>@string/arrays__font_90</item>
+</string-array>
+
+<string-array name="pref_message_font_size_values">
+        <item>13</item>
+        <item>16</item>
+        <item>20</item>
+        <item>30</item>
+        <item>50</item>
+        <item>60</item>
+        <item>70</item>
+        <item>80</item>
+        <item>90</item>
+ </string-array>
+ ```
+ 
+ 
 
 2.2 메세지 및 대체 텍스트를 음성합성
 --
@@ -26,23 +70,26 @@ ConversationActivity는 TextToSpeech.OnInitListener를 구현하는 클래스이
  public class ConversationActivity extends PassphraseRequiredActionBarActivity
                                    implements TextToSpeech.OnInitListener {
      //중략
-     private ConversationFragment fragment;
+     private ConversationFragment fragment; //메세지창 구성요소
      private TextToSpeech tts;
      
      @Override
      protected void onCreate(Bundle state, boolean ready) {
          //중략
+         
+         //객체 생성하고 fragment에 넘겨주기
          ConversationFragment temp=new ConversationFragment();
-         tts=new TextToSpeech(this, this);
+         tts=new TextToSpeech(this, this);  
          temp.tts=tts;
-         fragment = initFragment(R.id.fragment_content, temp, dynamicLanguage.getCurrentLocale());
+         fragment = initFragment(R.id.fragment_content, temp, dynamicLanguage.getCurrentLocale()); 
+         
          //중략
      }
      
      @Override
      public void onInit(int status) { //for OninitListener 
          if (status == TextToSpeech.SUCCESS) { 
-             int result = tts.setLanguage(Locale.KOREA); 
+             int result = tts.setLanguage(Locale.KOREA);           //한국어로 설정
              if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) { 
                  Log.e("TTS", "This Language is not supported"); 
              } else { }
@@ -56,7 +103,7 @@ ConversationActivity는 TextToSpeech.OnInitListener를 구현하는 클래스이
          //중략
          if (tts != null) {
              tts.stop();
-             tts.shutdown();
+             tts.shutdown(); //tts 엔진 중지
          }
          super.onDestroy();
      }
@@ -70,9 +117,11 @@ ConversationFragment는 대화창의 메시지 부분을 구현하는 클래스�
 ````javascript
 public class ConversationFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
     //중략
-    public TextToSpeech tts;
+    public TextToSpeech tts; //ConversationActivity로 부터 넘겨받게 된다.
     
     private void readVoiceMessage(final Set<MessageRecord> messageRecords) {
+    
+        //List에 선택된 메시지를 모으기(다중 선택도 가능)
         List<MessageRecord> messageList = new LinkedList<>(messageRecords);
         Collections.sort(messageList, new Comparator<MessageRecord>() {
             @Override
@@ -81,20 +130,19 @@ public class ConversationFragment extends Fragment implements LoaderManager.Load
                 else if (lhs.getDateReceived() == rhs.getDateReceived()) return 0;
                 else                                                     return 1;
             }
-        });
+        }); 
 
         StringBuilder bodyBuilder = new StringBuilder();
 
+        //선택된 모든 메시지의 내용을 StringBuilder로 build
         for (MessageRecord messageRecord : messageList) {
             String body = messageRecord.getDisplayBody().toString();
             if (!TextUtils.isEmpty(body)) {
                 bodyBuilder.append(body).append('\n');
-            }
-        }
-        if (bodyBuilder.length() > 0 && bodyBuilder.charAt(bodyBuilder.length() - 1) == '\n') {
-            bodyBuilder.deleteCharAt(bodyBuilder.length() - 1);
+            } /
         }
 
+        //StringBuilder에 저장한 내용을 String으로 변환하고, tts 엔진을 이용하여 음성합성
         String result = bodyBuilder.toString();
 
         if (!TextUtils.isEmpty(result))
@@ -104,9 +152,9 @@ public class ConversationFragment extends Fragment implements LoaderManager.Load
    @Override
    public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
        switch(item.getItemId()) {
-           case R.id.menu_context_voice:
-               readVoiceMessage(getListAdapter().getSelectedItems());
-               actionMode.finish();
+           case R.id.menu_context_voice: //보이스(재생) 버튼
+               readVoiceMessage(getListAdapter().getSelectedItems()); //클릭되면 음성합성 메서드 호출
+               actionMode.finish(); //실행 후 액션모드 종료
                return true;
            //중략
        }
