@@ -64,11 +64,10 @@ public class ChatsPreferenceFragment extends ListSummaryPreferenceFragment {
  </string-array>
  ```
  
- 
+<br>
 
 2.2 메세지 및 대체 텍스트를 음성합성
 --
-
 메세지를 선택 후 화면 왼쪽 상단의 재생버튼을 클릭하면 음성으로 변환한다. 여러개의 메세지를 한번에 음성합성 하는 것도 가능하며, 이모지도 대체텍스트를 이용하여 음성화한다.
 
 <img src = './artwork/ttsImage.jpg' width = '200' height = '' />
@@ -176,6 +175,8 @@ public class ConversationFragment extends Fragment implements LoaderManager.Load
    //중략
 }
 ````
+
+<br>
   
 2.3 음성인식
 --
@@ -185,14 +186,22 @@ public class ConversationFragment extends Fragment implements LoaderManager.Load
 
 
 # 3. 사용한 API
+
+<br>
+
 Signal-android            https://github.com/signalapp/Signal-Android
 
 kakao Newtone api         https://developers.kakao.com/docs/android/speech
 
 Android Text-to-Speech    https://developer.android.com/reference/android/speech/tts/TextToSpeech     
 
+<br>
+
 
 # 4. 개발자 정보
+
+<br>
+
 **1515003 고영지(youngji-koh)**  사용자 인터페이스 및 음성합성 기능 구현
 - **Youngji**  : 글씨 크기 조절 기능 추가, 고대비 테마 추가, 음성합성 기능 구현 담당
 
@@ -217,6 +226,7 @@ Android Text-to-Speech    https://developer.android.com/reference/android/speech
 - **JoYewon**  : 카카오 앱 키 설정, 음성합성 기능 구현, 글씨 크기 조절 기능 추가, 발표자료 담당
 - **QueenCurry-README**  : Readme.md 작성
 
+<br>
 
 # License
 
