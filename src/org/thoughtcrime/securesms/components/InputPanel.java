@@ -237,6 +237,7 @@ public class InputPanel extends LinearLayout
   @Override
   public void onEmojiSelected(String emoji) {
     composeText.insertEmoji(emoji);
+    Log.i(TAG, emoji);
   }
 
 
