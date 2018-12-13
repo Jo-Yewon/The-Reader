@@ -12,9 +12,13 @@ APK 추출해서 다운로드 링크 걸기
 2.1 UI
 --
 
-사용자의 편의에 따라 글씨 크기 및 이모지의 크기를 세부적으로 선택할 수 있다. 예를 들어 저시력 사용자는 메시지를 크게하고, 터널시야 증상을 가진 사용자는 메시지를 작게하여 보다 편하게 메시지를 읽을 수 있을 것이다.
+사용자의 편의에 따라 글씨 및 이모지의 크기를 세부적으로 선택할 수 있다. 예를 들어 저시력 사용자는 메시지를 크게하고, 터널시야 증상을 가진 사용자는 메시지를 작게하여 보다 편하게 메시지를 읽을 수 있을 것이다.
 
 <img src = './artwork/fontImage.png' width = '200' height = '' /> <img src = './artwork/fontImage2.jpg' width = '200' height = '' />
+
+<br>
+
+ChatsPreferenceFragment에서 글씨 크기를 선택할 수 있다. 설정된 글씨 크기는 설정 창에서도 Summary되어서 나타난다.
 
 ```javascript
 public class ChatsPreferenceFragment extends ListSummaryPreferenceFragment {
@@ -31,6 +35,11 @@ public class ChatsPreferenceFragment extends ListSummaryPreferenceFragment {
     //중략
 }
 ```
+
+<br>
+
+
+글씨 크기를 최소 13부터 최대 90까지 9개의 항목 중 선택할 수 있도록 했다.
 
 ```javascript
 <string-array name="pref_message_font_size_entries">
@@ -63,6 +72,8 @@ public class ChatsPreferenceFragment extends ListSummaryPreferenceFragment {
 메세지를 선택 후 화면 왼쪽 상단의 재생버튼을 클릭하면 음성으로 변환한다. 여러개의 메세지를 한번에 음성합성 하는 것도 가능하며, 이모지도 대체텍스트를 이용하여 음성화한다.
 
 <img src = './artwork/ttsImage.jpg' width = '200' height = '' />
+
+<br>
 
 ConversationActivity는 TextToSpeech.OnInitListener를 구현하는 클래스이다. TextToSpeech 객체의 생성은 onCreate()에서 이루어지며, 생성과 동시에 onInit() 메서드를 통해 한국어로 음성합성되도록 설정된다. 이 객체를 fragment 생성시에 전달하여, fragment 내에서 음성합성 기능을 이용할 수 있도록 한다. TextToSpeech 엔진은 대화창이 종료되는 onDestroy()에서 함께 종료된다.
 
@@ -111,6 +122,8 @@ ConversationActivity는 TextToSpeech.OnInitListener를 구현하는 클래스이
      //중략
  }
 ````
+
+<br>
 
 ConversationFragment는 대화창의 메시지 부분을 구현하는 클래스이다. 인스턴스 변수인 TextToSpeech는 ConversationActivity에서 객체를 생성할 때 넘겨받게 된다. 메시지를 선택하면 ActionMode가 되며, 왼쪽 상단의 재생 버튼을 클릭시 onActionItemClicked()를 통해 readVoiceMessage()를 호출하게 된다. readVoiceMessage()에서는 List에 선택된 메시지를 모은 후, StringBuilder를 사용하여 순차적으로 String으로 변환한다. 그리고 마지막으로 변환한 String을 tts 엔진을 이용하여 음성합성한다.
 
