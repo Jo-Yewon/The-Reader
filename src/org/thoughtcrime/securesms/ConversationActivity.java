@@ -186,6 +186,7 @@ import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -2137,6 +2138,22 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
       container.show(composeText, emojiDrawerStub.get());
     }
   }
+    public void randomEmojiSend(String result){
+        HashMap<String,String[]> randomEmojiData= new HashMap<String,String[]>();
+        randomEmojiData.put("기뻐",new String[]{"😊","😁","😄"});
+        randomEmojiData.put("사랑",new String[]{"😍","😘","❤","💖","💕","🥰"});
+        randomEmojiData.put("축하",new String[]{"🎉","🎊","🥳","👏"});
+        randomEmojiData.put("미안",new String[]{"😭","😥"});
+        randomEmojiData.put("안녕",new String[]{"👋","🙋"});
+
+
+        if(!randomEmojiData.containsKey(result)) {
+            Log.i(TAG, "그런 키워드는 데이터베이스에 존재하지 않음");
+            return;
+        }
+        composeText.insertEmoji(randomEmojiData.get(result)[(int)(Math.random()*randomEmojiData.get(result).length)]);
+        sendMessage();
+    }
 
   @Override
   public void onMediaSelected(@NonNull Uri uri, String contentType) {
