@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <string name="app_name">Signal</string>
+  <string name="app_name">The Reader</string>
   <string name="yes">예</string>
   <string name="no">아니요</string>
   <string name="delete">삭제</string>
@@ -111,7 +111,7 @@
   <string name="ConversationActivity_unable_to_record_audio">오디오 녹음할 수 없음</string>
   <string name="ConversationActivity_error_sending_voice_message">음성 메시지 보내는 동안 오류 발생</string>
   <string name="ConversationActivity_there_is_no_app_available_to_handle_this_link_on_your_device">작업을 처리할 수 있는 앱 없음</string>
-  <string name="ConversationActivity_to_send_audio_messages_allow_signal_access_to_your_microphone">음성 메시지를 보내기 위해서, Signal 이 마이크에 접근하 수 있게 허용하십시오.</string>
+  <string name="ConversationActivity_to_send_audio_messages_allow_signal_access_to_your_microphone">음성 메시지를 보내기 위해서, The Reader 가 마이크에 접근하 수 있게 허용하십시오.</string>
   <!--ConversationAdapter-->
   <plurals name="ConversationAdapter_n_unread_messages">
     <item quantity="other">%d 읽지 않은 메시지</item>
@@ -503,7 +503,7 @@
   <!--SearchToolbar-->
   <string name="SearchToolbar_search">검색</string>
   <!--SingleRecipientNotificationBuilder-->
-  <string name="SingleRecipientNotificationBuilder_signal">Signal</string>
+  <string name="SingleRecipientNotificationBuilder_signal">The Reader</string>
   <string name="SingleRecipientNotificationBuilder_new_message">새 메시지</string>
   <!--UnauthorizedReminder-->
   <!--VideoPlayer-->
