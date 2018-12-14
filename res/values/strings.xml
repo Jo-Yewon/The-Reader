@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="kakao_app_key">c63f900123138ae35265697a9f9bb610 </string> //카카오앱 키 추가
+    <string name="kakao_app_key">c63f900123138ae35265697a9f9bb610 </string> //카카오 앱키 추가
 
-    <string name="app_name">The Reader</string> //앱 이름 수정
+    <string name="app_name">The Reader</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="delete">Delete</string>
