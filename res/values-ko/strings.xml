@@ -758,8 +758,7 @@
   <string name="preferences__scan_through_all_conversations_and_enforce_conversation_length_limits">모든 대화에 메시지 저장한도 적용</string>
   <string name="preferences__linked_devices">연결된 기기</string>
   <string name="preferences__light_theme">밝게</string>
-  <string name="preferences__dark_theme">어둡게</string>
-  <string name="preferences__highcontrast_theme">고대비</string>
+  <string name="preferences__dark_theme">고대비</string>
   <string name="preferences__appearance">모양</string>
   <string name="preferences__theme">테마</string>
   <string name="preferences__default">기본</string>

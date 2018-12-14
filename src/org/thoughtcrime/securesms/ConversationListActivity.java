@@ -103,6 +103,13 @@ public class ConversationListActivity extends PassphraseRequiredActionBarActivit
     RegistrationLockDialog.showReminderIfNecessary(this);
 
     TooltipCompat.setTooltipText(searchAction, getText(R.string.SearchToolbar_search_for_conversations_contacts_and_messages));
+
+    Permissions.with(this)
+            .request(Manifest.permission.RECORD_AUDIO)
+            .ifNecessary()
+            .withRationaleDialog(getString(R.string.ConversationActivity_to_send_audio_messages_allow_signal_access_to_your_microphone), R.drawable.ic_mic_white_48dp)
+            .withPermanentDenialDialog(getString(R.string.ConversationActivity_signal_requires_the_microphone_permission_in_order_to_send_audio_messages))
+            .execute();
   }
 
   @Override

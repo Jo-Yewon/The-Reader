@@ -46,13 +46,14 @@
                     android:layout_toEndOf="@id/contact_photo_image"
                     android:layout_centerVertical="true">
 
+        <!-- 채팅창 상단의 상대방 이름 글씨 크기 확대 -->
         <org.thoughtcrime.securesms.components.emoji.EmojiTextView
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:ellipsize="end"
-                android:textSize="18dp"
+                android:textSize="30dp"
                 android:transitionName="recipient_name"
                 android:drawablePadding="5dp"
                 android:gravity="center_vertical"

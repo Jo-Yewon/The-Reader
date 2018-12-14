@@ -55,6 +55,8 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Pair;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -63,10 +65,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.View.OnKeyListener;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -378,10 +382,18 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
   private RecognitionListener recognitionListener = new RecognitionListener() {
     @Override
     public void onReadyForSpeech(Bundle bundle) {
+      Log.i(TAG, "음성인식 준비 완료");
+
+      Toast toast = Toast.makeText(ConversationActivity.this,"이모티콘 키워드를 말하세요",Toast.LENGTH_SHORT);
+      ViewGroup group = (ViewGroup) toast.getView();
+      TextView messageTextView = (TextView) group.getChildAt(0);
+      messageTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP,30); //토스트 글씨 사이즈 변경
+      toast.show();
     }
 
     @Override
     public void onBeginningOfSpeech() {
+      Log.i(TAG, "Speech Beginning");
     }
 
     @Override
@@ -402,6 +414,7 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
 
     @Override
     public void onResults(Bundle bundle) {
+      Log.i(TAG, "음성인식 결과");
       String key = "";
       key = SpeechRecognizer.RESULTS_RECOGNITION;
       ArrayList<String> mResult = bundle.getStringArrayList(key);
@@ -2216,8 +2229,11 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
     randomEmojiData.put("사랑",new String[]{"😍","😘","❤","💖","💕","💝"});
 
     if(!randomEmojiData.containsKey(result)) {
-      Toast.makeText(this,"그런 키워드는 데이터베이스에 존재하지 않음",Toast.LENGTH_SHORT).show();
-      Log.i(TAG, "그런 키워드는 데이터베이스에 존재하지 않음");
+
+      Toast toast2=Toast.makeText(this,"키워드가 데이터베이스에 존재하지 않음",Toast.LENGTH_SHORT);
+      ViewGroup group=(ViewGroup) toast2.getView();
+      TextView messageTextView=(TextView) group.getChildAt(0);
+      messageTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 30);
       return;
     }
     composeText.insertEmoji(randomEmojiData.get(result)[(int)(Math.random()*randomEmojiData.get(result).length)]);
