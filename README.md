@@ -64,7 +64,7 @@ public class ChatsPreferenceFragment extends ListSummaryPreferenceFragment {
  </string-array>
  ```
  
- ```javascript
+```javascript
  <!-- 채팅창 상단의 상대방 이름 글씨 크기 확대 -->
         <org.thoughtcrime.securesms.components.emoji.EmojiTextView
                 android:id="@+id/title"
@@ -76,11 +76,11 @@ public class ChatsPreferenceFragment extends ListSummaryPreferenceFragment {
  ```
  
  ```javascript
-     <!--글씨 색상 변경 및 확대-->
-    <TextView android:id="@+id/right_summary"
-              <!--중략-->
-              android:textSize="20sp"
-              android:textColor="@color/white"/>
+ <!--글씨 색상 변경 및 확대-->
+ <TextView android:id="@+id/right_summary"
+        <!--중략-->
+        android:textSize="20sp"
+        android:textColor="@color/white"/>
 ```
 
 <br>
@@ -103,9 +103,8 @@ public class ChatsPreferenceFragment extends ListSummaryPreferenceFragment {
         <item name="conversation_item_received_text_primary_color">@color/white</item>
         <!--중략-->
     </style>
-
+```
 <br>
-
 
 2.2 메세지 및 대체 텍스트를 음성합성
 --
