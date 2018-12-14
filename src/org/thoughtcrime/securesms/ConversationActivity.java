@@ -39,7 +39,9 @@ import android.os.Vibrator;
 import android.provider.Browser;
 import android.provider.ContactsContract;
 import android.provider.Telephony;
+import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
+import android.speech.SpeechRecognizer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.pm.ShortcutInfoCompat;
@@ -250,7 +252,6 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
   private static final int SMS_DEFAULT         = 11;
   private static final int PICK_CAMERA         = 12;
   private static final int EDIT_IMAGE          = 13;
-  private static final int RESULT_SPEECH_RECOGNITION=14;
 
   private   GlideRequests               glideRequests;
   protected ComposeText                 composeText;
@@ -294,7 +295,9 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
   private final DynamicLanguage    dynamicLanguage = new DynamicLanguage();
 
   private TextToSpeech tts;
-  private Intent i;
+
+  private Intent Speechintent; //음성인식 Intent
+  SpeechRecognizer mRecognizer;
 
   @Override
   public void onInit(int status) { //for OninitListener
@@ -363,7 +366,60 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
         });
       }
     });
+
+    Speechintent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+    Speechintent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
+    Speechintent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ko-KR");
+
+    mRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
+    mRecognizer.setRecognitionListener(recognitionListener);
   }
+
+  private RecognitionListener recognitionListener = new RecognitionListener() {
+    @Override
+    public void onReadyForSpeech(Bundle bundle) {
+    }
+
+    @Override
+    public void onBeginningOfSpeech() {
+    }
+
+    @Override
+    public void onRmsChanged(float v) {
+    }
+
+    @Override
+    public void onBufferReceived(byte[] bytes) {
+    }
+
+    @Override
+    public void onEndOfSpeech() {
+    }
+
+    @Override
+    public void onError(int i) {
+    }
+
+    @Override
+    public void onResults(Bundle bundle) {
+      String key = "";
+      key = SpeechRecognizer.RESULTS_RECOGNITION;
+      ArrayList<String> mResult = bundle.getStringArrayList(key);
+
+      String[] rs = new String[mResult.size()];
+      mResult.toArray(rs);
+
+      randomEmojiSend(rs[0]);
+    }
+
+    @Override
+    public void onPartialResults(Bundle bundle) {
+    }
+
+    @Override
+    public void onEvent(int i, Bundle bundle) {
+    }
+  };
 
   @Override
   protected void onNewIntent(Intent intent) {
@@ -480,11 +536,6 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
     }
 
     switch (reqCode) {
-      case RESULT_SPEECH_RECOGNITION:
-        ArrayList<String> sstResult = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-        String result_sst=sstResult.get(0);
-        Toast.makeText(this,result_sst,Toast.LENGTH_SHORT).show();
-        break;
     case PICK_GALLERY:
       MediaType mediaType;
 
@@ -2154,29 +2205,21 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
 
   @Override
   public boolean onEmojiVoice(){ //이모지 버튼 길게 눌러졌을 때 음성인식 실행
-    i=new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-    i.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,getPackageName());
-    i.putExtra(RecognizerIntent.EXTRA_LANGUAGE,"ko-KR");
-    i.putExtra(RecognizerIntent.EXTRA_PROMPT,"말해주세요");
-    try{
-      startActivityForResult(i,RESULT_SPEECH_RECOGNITION);
-    }catch(ActivityNotFoundException e){
-      Log.i(TAG, "STT 지원 X");;
-    }
+    mRecognizer.startListening(Speechintent);
     return true;
     //return false; //이 메서드에서 이벤트에 대한 처리를 끝내지 못하므로
   }
 
   public void randomEmojiSend(String result){
     HashMap<String,String[]> randomEmojiData= new HashMap<String,String[]>();
-    randomEmojiData.put("웃음",new String[]{"😊"," 😁","😄"});
+    randomEmojiData.put("웃음",new String[]{"😊","😁","😄"});
     randomEmojiData.put("사랑",new String[]{"😍","😘","❤","💖","💕","💝"});
 
     if(!randomEmojiData.containsKey(result)) {
+      Toast.makeText(this,"그런 키워드는 데이터베이스에 존재하지 않음",Toast.LENGTH_SHORT).show();
       Log.i(TAG, "그런 키워드는 데이터베이스에 존재하지 않음");
       return;
     }
-
     composeText.insertEmoji(randomEmojiData.get(result)[(int)(Math.random()*randomEmojiData.get(result).length)]);
     sendMessage();
   }
