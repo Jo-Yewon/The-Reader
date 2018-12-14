@@ -104,7 +104,7 @@ public class ChatsPreferenceFragment extends ListSummaryPreferenceFragment {
         <!--중략-->
         <item name="conversation_item_received_text_primary_color">@color/white</item>
         <!--중략-->
-    </style>
+</style>
 ```
 <br>
 
