@@ -2141,11 +2141,20 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
 
   public void randomEmojiSend(String result){
     HashMap<String,String[]> randomEmojiData= new HashMap<String,String[]>();
-    randomEmojiData.put("기뻐",new String[]{"😊","😁","😄"});
+    randomEmojiData.put("웃음",new String[]{"😊","😁","😄","😀"});
     randomEmojiData.put("사랑",new String[]{"😍","😘","❤","💖","💕","🥰"});
+    randomEmojiData.put("슬픔",new String[]{"☹️","😫","😔","😿","😭","😥"});
     randomEmojiData.put("축하",new String[]{"🎉","🎊","🥳","👏"});
-    randomEmojiData.put("미안",new String[]{"😭","😥"});
-    randomEmojiData.put("안녕",new String[]{"👋","🙋"});
+    randomEmojiData.put("별",new String[]{"⭐️","🌟","✨");
+    randomEmojiData.put("안녕",new String[]{"👋","🙋","✋"});
+    randomEmojiData.put("최고",new String[]{"👍","👏"});
+    randomEmojiData.put("기쁨",new String[]{"🤩","🤗","😽","😆","😃"});
+    randomEmojiData.put("멘붕",new String[]{"😱","🤯","😵"});
+    randomEmojiData.put("화남",new String[]{"😡","🤬","😤","😠"});
+    randomEmojiData.put("아픔",new String[]{"😷","🤧","🤒","🤕"});
+    randomEmojiData.put("하트",new String[]{"❤️","🧡","💛","💚","💙","💜","❣️","💓","💗"});
+
+
 
 
     if(!randomEmojiData.containsKey(result)) {
@@ -2154,9 +2163,10 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
     }
     composeText.insertEmoji(randomEmojiData.get(result)[(int)(Math.random()*randomEmojiData.get(result).length)]);
     sendMessage();
-  }
+}
 
-  @Override
+
+    @Override
   public void onMediaSelected(@NonNull Uri uri, String contentType) {
     if (!TextUtils.isEmpty(contentType) && contentType.trim().equals("image/gif")) {
       setMedia(uri, MediaType.GIF);
