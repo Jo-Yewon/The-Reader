@@ -68,13 +68,13 @@ public class ChatsPreferenceFragment extends ListSummaryPreferenceFragment {
 
  ```javascript
  <!-- 채팅창 상단의 상대방 이름 글씨 크기 확대 -->
-        <org.thoughtcrime.securesms.components.emoji.EmojiTextView
-                android:id="@+id/title"
-                <!--중략-->
-                android:textSize="30dp"
-                <!--중략-->
-                style="@style/TextSecure.TitleTextStyle"
-                tools:ignore="UnusedAttribute"/>
+ <org.thoughtcrime.securesms.components.emoji.EmojiTextView
+         android:id="@+id/title"
+         <!--중략-->
+         android:textSize="30dp"
+         <!--중략-->
+         style="@style/TextSecure.TitleTextStyle"
+         ools:ignore="UnusedAttribute"/>
  ```
  
  ```javascript
