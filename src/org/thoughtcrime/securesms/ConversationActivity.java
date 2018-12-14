@@ -302,6 +302,7 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
 
   private Intent Speechintent; //음성인식 Intent
   SpeechRecognizer mRecognizer;
+  public HashMap<String,String[]> randomEmojiData;
 
   @Override
   public void onInit(int status) { //for OninitListener
@@ -387,7 +388,7 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
       Toast toast = Toast.makeText(ConversationActivity.this,"이모티콘 키워드를 말하세요",Toast.LENGTH_SHORT);
       ViewGroup group = (ViewGroup) toast.getView();
       TextView messageTextView = (TextView) group.getChildAt(0);
-      messageTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP,30); //토스트 글씨 사이즈 변경
+      messageTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP,20); //토스트 글씨 사이즈 변경
       toast.show();
     }
 
@@ -2230,10 +2231,7 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
 
     if(!randomEmojiData.containsKey(result)) {
 
-      Toast toast2=Toast.makeText(this,"키워드가 데이터베이스에 존재하지 않음",Toast.LENGTH_SHORT);
-      ViewGroup group=(ViewGroup) toast2.getView();
-      TextView messageTextView=(TextView) group.getChildAt(0);
-      messageTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 30);
+      Toast.makeText(this,"키워드가 데이터베이스에 존재하지 않음",Toast.LENGTH_SHORT).show();
       return;
     }
     composeText.insertEmoji(randomEmojiData.get(result)[(int)(Math.random()*randomEmojiData.get(result).length)]);
