@@ -186,7 +186,6 @@ import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -457,10 +456,6 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
     saveDraft();
     if (recipient != null)               recipient.removeListener(this);
     if (securityUpdateReceiver != null)  unregisterReceiver(securityUpdateReceiver);
-    if (tts!=null){
-      tts.stop();
-      tts.shutdown();
-    }
     super.onDestroy();
   }
 
@@ -2141,29 +2136,6 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
     } else {
       container.show(composeText, emojiDrawerStub.get());
     }
-  }
-
-  @Override
-  public boolean onEmojiVoice(){ //이모지 버튼 길게 눌러졌을 때 음성인식 실행
-    Toast.makeText(getApplicationContext(),"이모지 롱클릭",Toast.LENGTH_SHORT).show();
-    composeText.insertEmoji("\uD83D\uDE0A");
-    sendMessage();
-    return true;
-    //return false; //이 메서드에서 이벤트에 대한 처리를 끝내지 못하므로
-  }
-
-  public void randomEmojiSend(String result){
-    HashMap<String,String[]> randomEmojiData= new HashMap<String,String[]>();
-    randomEmojiData.put("웃음",new String[]{"😊"," 😁","😄"});
-    randomEmojiData.put("사랑",new String[]{"😍","😘","❤","💖","💕","💝"});
-
-    if(!randomEmojiData.containsKey(result)) {
-      Log.i(TAG, "그런 키워드는 데이터베이스에 존재하지 않음");
-      return;
-    }
-
-    composeText.insertEmoji(randomEmojiData.get(result)[(int)(Math.random()*randomEmojiData.get(result).length)]);
-    sendMessage();
   }
 
   @Override
