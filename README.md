@@ -64,7 +64,9 @@ public class ChatsPreferenceFragment extends ListSummaryPreferenceFragment {
  </string-array>
  ```
  
-```javascript
+채팅창 상단의 글씨 크기를 확대하고 색상을 변경하였다.
+
+ ```javascript
  <!-- 채팅창 상단의 상대방 이름 글씨 크기 확대 -->
         <org.thoughtcrime.securesms.components.emoji.EmojiTextView
                 android:id="@+id/title"
