@@ -39,6 +39,7 @@ import android.os.Vibrator;
 import android.provider.Browser;
 import android.provider.ContactsContract;
 import android.provider.Telephony;
+import android.speech.RecognizerIntent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.pm.ShortcutInfoCompat;
@@ -185,6 +186,7 @@ import org.whispersystems.libsignal.util.guava.Optional;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -248,6 +250,7 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
   private static final int SMS_DEFAULT         = 11;
   private static final int PICK_CAMERA         = 12;
   private static final int EDIT_IMAGE          = 13;
+  private static final int RESULT_SPEECH_RECOGNITION=14;
 
   private   GlideRequests               glideRequests;
   protected ComposeText                 composeText;
@@ -291,6 +294,7 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
   private final DynamicLanguage    dynamicLanguage = new DynamicLanguage();
 
   private TextToSpeech tts;
+  private Intent i;
 
   @Override
   public void onInit(int status) { //for OninitListener
@@ -476,6 +480,11 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
     }
 
     switch (reqCode) {
+      case RESULT_SPEECH_RECOGNITION:
+        ArrayList<String> sstResult = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+        String result_sst=sstResult.get(0);
+        Toast.makeText(this,result_sst,Toast.LENGTH_SHORT).show();
+        break;
     case PICK_GALLERY:
       MediaType mediaType;
 
@@ -2145,9 +2154,15 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
 
   @Override
   public boolean onEmojiVoice(){ //이모지 버튼 길게 눌러졌을 때 음성인식 실행
-    Toast.makeText(getApplicationContext(),"이모지 롱클릭",Toast.LENGTH_SHORT).show();
-    composeText.insertEmoji("\uD83D\uDE0A");
-    sendMessage();
+    i=new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+    i.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,getPackageName());
+    i.putExtra(RecognizerIntent.EXTRA_LANGUAGE,"ko-KR");
+    i.putExtra(RecognizerIntent.EXTRA_PROMPT,"말해주세요");
+    try{
+      startActivityForResult(i,RESULT_SPEECH_RECOGNITION);
+    }catch(ActivityNotFoundException e){
+      Log.i(TAG, "STT 지원 X");;
+    }
     return true;
     //return false; //이 메서드에서 이벤트에 대한 처리를 끝내지 못하므로
   }
