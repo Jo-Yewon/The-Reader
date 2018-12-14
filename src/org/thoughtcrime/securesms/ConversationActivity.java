@@ -302,7 +302,7 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
 
   private Intent Speechintent; //음성인식 Intent
   SpeechRecognizer mRecognizer;
-  public HashMap<String,String[]> randomEmojiData;
+  HashMap<String,String[]> randomEmojiData;
 
   @Override
   public void onInit(int status) { //for OninitListener
@@ -371,6 +371,8 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
         });
       }
     });
+
+    makeEmojiData();
 
     Speechintent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
     Speechintent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
@@ -2224,11 +2226,23 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
     //return false; //이 메서드에서 이벤트에 대한 처리를 끝내지 못하므로
   }
 
+  public void makeEmojiData(){
+    randomEmojiData= new HashMap<String,String[]>();
+    randomEmojiData.put("웃음",new String[]{"😊","😁","😄","😀"});
+    randomEmojiData.put("사랑",new String[]{"😍","😘","❤","💖","💕"});
+    randomEmojiData.put("기뻐",new String[]{"😊","😁","😄"});
+    randomEmojiData.put("슬픔",new String[]{"☹","😫","😔","😿","😭","😥"});
+    randomEmojiData.put("축하",new String[]{"🎉","🎊","👏"});
+    randomEmojiData.put("미안",new String[]{"😭","😥"});
+    randomEmojiData.put("안녕",new String[]{"👋","🙋","✋"});
+    randomEmojiData.put("최고",new String[]{"👍","👏"});
+    randomEmojiData.put("기쁨",new String[]{"🤩","🤗","😽","😆","😃"});
+    randomEmojiData.put("멘붕",new String[]{"😱","🤯","😵"});
+    randomEmojiData.put("화남",new String[]{"😡","🤬","😤","😠"});
+    randomEmojiData.put("아픔",new String[]{"😷","🤧","🤒","🤕"});
+    randomEmojiData.put("하트",new String[]{"❤","🧡","💛","💚","💙","💜","❣","💓","💗"});
+  }
   public void randomEmojiSend(String result){
-    HashMap<String,String[]> randomEmojiData= new HashMap<String,String[]>();
-    randomEmojiData.put("웃음",new String[]{"😊","😁","😄"});
-    randomEmojiData.put("사랑",new String[]{"😍","😘","❤","💖","💕","💝"});
-
     if(!randomEmojiData.containsKey(result)) {
 
       Toast.makeText(this,"키워드가 데이터베이스에 존재하지 않음",Toast.LENGTH_SHORT).show();
