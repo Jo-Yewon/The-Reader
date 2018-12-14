@@ -39,6 +39,9 @@ import android.os.Vibrator;
 import android.provider.Browser;
 import android.provider.ContactsContract;
 import android.provider.Telephony;
+import android.speech.RecognitionListener;
+import android.speech.RecognizerIntent;
+import android.speech.SpeechRecognizer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.pm.ShortcutInfoCompat;
@@ -52,6 +55,8 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Pair;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -60,10 +65,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.View.OnKeyListener;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -185,7 +192,9 @@ import org.whispersystems.libsignal.util.guava.Optional;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -291,6 +300,10 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
 
   private TextToSpeech tts;
 
+  private Intent Speechintent; //음성인식 Intent
+  SpeechRecognizer mRecognizer;
+  HashMap<String,String[]> randomEmojiData;
+
   @Override
   public void onInit(int status) { //for OninitListener
     if (status == TextToSpeech.SUCCESS) {
@@ -358,7 +371,71 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
         });
       }
     });
+
+    makeEmojiData();
+
+    Speechintent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+    Speechintent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
+    Speechintent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ko-KR");
+
+    mRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
+    mRecognizer.setRecognitionListener(recognitionListener);
   }
+
+  private RecognitionListener recognitionListener = new RecognitionListener() {
+    @Override
+    public void onReadyForSpeech(Bundle bundle) {
+      Log.i(TAG, "음성인식 준비 완료");
+
+      Toast toast = Toast.makeText(ConversationActivity.this,"이모티콘 키워드를 말하세요",Toast.LENGTH_SHORT);
+      ViewGroup group = (ViewGroup) toast.getView();
+      TextView messageTextView = (TextView) group.getChildAt(0);
+      messageTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP,20); //토스트 글씨 사이즈 변경
+      toast.show();
+    }
+
+    @Override
+    public void onBeginningOfSpeech() {
+      Log.i(TAG, "Speech Beginning");
+    }
+
+    @Override
+    public void onRmsChanged(float v) {
+    }
+
+    @Override
+    public void onBufferReceived(byte[] bytes) {
+    }
+
+    @Override
+    public void onEndOfSpeech() {
+    }
+
+    @Override
+    public void onError(int i) {
+    }
+
+    @Override
+    public void onResults(Bundle bundle) {
+      Log.i(TAG, "음성인식 결과");
+      String key = "";
+      key = SpeechRecognizer.RESULTS_RECOGNITION;
+      ArrayList<String> mResult = bundle.getStringArrayList(key);
+
+      String[] rs = new String[mResult.size()];
+      mResult.toArray(rs);
+
+      randomEmojiSend(rs[0]);
+    }
+
+    @Override
+    public void onPartialResults(Bundle bundle) {
+    }
+
+    @Override
+    public void onEvent(int i, Bundle bundle) {
+    }
+  };
 
   @Override
   protected void onNewIntent(Intent intent) {
@@ -456,6 +533,10 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
     saveDraft();
     if (recipient != null)               recipient.removeListener(this);
     if (securityUpdateReceiver != null)  unregisterReceiver(securityUpdateReceiver);
+    if (tts!=null){
+      tts.stop();
+      tts.shutdown();
+    }
     super.onDestroy();
   }
 
@@ -2136,6 +2217,39 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
     } else {
       container.show(composeText, emojiDrawerStub.get());
     }
+  }
+
+  @Override
+  public boolean onEmojiVoice(){ //이모지 버튼 길게 눌러졌을 때 음성인식 실행
+    mRecognizer.startListening(Speechintent);
+    return true;
+    //return false; //이 메서드에서 이벤트에 대한 처리를 끝내지 못하므로
+  }
+
+  public void makeEmojiData(){
+    randomEmojiData= new HashMap<String,String[]>();
+    randomEmojiData.put("웃음",new String[]{"😊","😁","😄","😀"});
+    randomEmojiData.put("사랑",new String[]{"😍","😘","❤","💖","💕"});
+    randomEmojiData.put("기뻐",new String[]{"😊","😁","😄"});
+    randomEmojiData.put("슬픔",new String[]{"☹","😫","😔","😿","😭","😥"});
+    randomEmojiData.put("축하",new String[]{"🎉","🎊","👏"});
+    randomEmojiData.put("미안",new String[]{"😭","😥"});
+    randomEmojiData.put("안녕",new String[]{"👋","🙋","✋"});
+    randomEmojiData.put("최고",new String[]{"👍","👏"});
+    randomEmojiData.put("기쁨",new String[]{"🤩","🤗","😽","😆","😃"});
+    randomEmojiData.put("멘붕",new String[]{"😱","🤯","😵"});
+    randomEmojiData.put("화남",new String[]{"😡","🤬","😤","😠"});
+    randomEmojiData.put("아픔",new String[]{"😷","🤧","🤒","🤕"});
+    randomEmojiData.put("하트",new String[]{"❤","🧡","💛","💚","💙","💜","❣","💓","💗"});
+  }
+  public void randomEmojiSend(String result){
+    if(!randomEmojiData.containsKey(result)) {
+
+      Toast.makeText(this,"키워드가 데이터베이스에 존재하지 않음",Toast.LENGTH_SHORT).show();
+      return;
+    }
+    composeText.insertEmoji(randomEmojiData.get(result)[(int)(Math.random()*randomEmojiData.get(result).length)]);
+    sendMessage();
   }
 
   @Override
