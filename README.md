@@ -264,8 +264,6 @@ private RecognitionListener recognitionListener = new RecognitionListener() {
 # 3. 사용한 API
 Signal-android            https://github.com/signalapp/Signal-Android
 
-kakao Newtone api         https://developers.kakao.com/docs/android/speech
-
 Android Text-to-Speech    https://developer.android.com/reference/android/speech/tts/TextToSpeech     
 
 
