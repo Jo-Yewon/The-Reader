@@ -260,7 +260,40 @@ private RecognitionListener recognitionListener = new RecognitionListener() {
 
 2.4 키워드 분류 및 이모티콘 전송
 --
+````javascript
+@Override
+  public boolean onEmojiVoice(){ //이모지 버튼 길게 눌러졌을 때 음성인식 실행
+    mRecognizer.startListening(Speechintent);
+    return true;
+    //return false; //이 메서드에서 이벤트에 대한 처리를 끝내지 못하므로
+  }
 
+  public void makeEmojiData(){
+    randomEmojiData= new HashMap<String,String[]>();
+    randomEmojiData.put("웃음",new String[]{"😊","😁","😄","😀"});
+    randomEmojiData.put("사랑",new String[]{"😍","😘","❤","💖","💕"});
+    randomEmojiData.put("기뻐",new String[]{"😊","😁","😄"});
+    randomEmojiData.put("슬픔",new String[]{"☹","😫","😔","😿","😭","😥"});
+    randomEmojiData.put("축하",new String[]{"🎉","🎊","👏"});
+    randomEmojiData.put("미안",new String[]{"😭","😥"});
+    randomEmojiData.put("안녕",new String[]{"👋","🙋","✋"});
+    randomEmojiData.put("최고",new String[]{"👍","👏"});
+    randomEmojiData.put("기쁨",new String[]{"🤩","🤗","😽","😆","😃"});
+    randomEmojiData.put("멘붕",new String[]{"😱","🤯","😵"});
+    randomEmojiData.put("화남",new String[]{"😡","🤬","😤","😠"});
+    randomEmojiData.put("아픔",new String[]{"😷","🤧","🤒","🤕"});
+    randomEmojiData.put("하트",new String[]{"❤","🧡","💛","💚","💙","💜","❣","💓","💗"});
+  }
+  public void randomEmojiSend(String result){
+    if(!randomEmojiData.containsKey(result)) {
+
+      Toast.makeText(this,"키워드가 데이터베이스에 존재하지 않음",Toast.LENGTH_SHORT).show();
+      return;
+    }
+    composeText.insertEmoji(randomEmojiData.get(result)[(int)(Math.random()*randomEmojiData.get(result).length)]);
+    sendMessage();
+  }
+````
 
 # 3. 사용한 API
 Signal-android            https://github.com/signalapp/Signal-Android
