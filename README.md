@@ -290,7 +290,8 @@ private RecognitionListener recognitionListener = new RecognitionListener() {
       Toast.makeText(this,"키워드가 데이터베이스에 존재하지 않음",Toast.LENGTH_SHORT).show();
       return;
     }
-    composeText.insertEmoji(randomEmojiData.get(result)[(int)(Math.random()*randomEmojiData.get(result).length)]);
+    composeText.insertEmoji(randomEmojiData.get(result)
+    [(int)(Math.random()*randomEmojiData.get(result).length)]);
     sendMessage();
   }
 ````
