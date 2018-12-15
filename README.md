@@ -221,6 +221,41 @@ public class ConversationFragment extends Fragment implements LoaderManager.Load
   
 2.3 음성인식
 --
+ConversationAcitvity는 RecognitionListener객체를 포함하며 액티비티 생성시에 Speechintent객체와 RecognitionListener객체를 준비시킨다.
+````javascript
+public class ConversationActivity extends PassphraseRequiredActionBarActivity(){
+ //중략
+ private Intent Speechintent; //음성인식 Intent
+ SpeechRecognizer mRecognizer; 
+ HashMap<String,String[]> randomEmojiData;
+  
+ protected void onCreate(Bundle state, boolean ready) {
+  //중략
+  Speechintent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+  Speechintent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
+  Speechintent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ko-KR");
+  mRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
+  mRecognizer.setRecognitionListener(recognitionListener);
+ }
+````
+음성을 인식하고 String으로 전환하는 RecognitionListener객체는 음성인식 완료 후 인식된 결과를 ArrayList의 형태로 변환한후 다시한번 String array형태로 변환한다. 인식된 음성 중 가장 첫번째 단어를 키워드로 간주해 randomEmojiSend에 전달하여 이모티콘을 전송한다.
+````javascript
+private RecognitionListener recognitionListener = new RecognitionListener() {
+    @Override
+    public void onResults(Bundle bundle) { //음성인식 완료 후 실행되는 메소드
+      Log.i(TAG, "음성인식 결과");
+      String key = "";
+      key = SpeechRecognizer.RESULTS_RECOGNITION; //인식된 키워드를 불러온다.
+      ArrayList<String> mResult = bundle.getStringArrayList(key); //키워드를
+
+      String[] rs = new String[mResult.size()];
+      mResult.toArray(rs);
+
+      randomEmojiSend(rs[0]); //첫번째 단어를 이용해 이모티콘을 전송한다.
+    }
+    //중략
+};
+````
 
 2.4 키워드 분류 및 이모티콘 전송
 --
