@@ -3,9 +3,7 @@
 
 # 1. How to use
 
-앱 설치 방법 및 사용법
-
-APK 추출해서 다운로드 링크 걸기
+위 링크를 통해 apk 파일을 다운받을 수 있다. 
 
 # 2. 주요 기능 및 코드
 
@@ -65,6 +63,11 @@ public class ChatsPreferenceFragment extends ListSummaryPreferenceFragment {
  </string-array>
  ```
  
+ <br>
+ <br>
+ 
+ <img src = './artwork/고대비1.png' width = '200' height = '' /> <img src = './artwork/고대비2.png' width = '200' height = '' /> <img src = './artwork/고대비3.png' width = '200' height = '' />
+ 
 채팅창 상단의 글씨 크기를 확대하고 색상을 변경하였다.
 
  ```javascript
@@ -114,7 +117,7 @@ public class ChatsPreferenceFragment extends ListSummaryPreferenceFragment {
 
 메세지를 선택 후 화면 왼쪽 상단의 재생버튼을 클릭하면 음성으로 변환한다. 여러개의 메세지를 한번에 음성합성 하는 것도 가능하며, 이모지도 대체텍스트를 이용하여 음성화한다.
 
-<img src = './artwork/ttsImage.jpg' width = '200' height = '' />
+<img src = './artwork/음성합성1.png' width = '200' height = '' />
 
 <br>
 
@@ -221,20 +224,25 @@ public class ConversationFragment extends Fragment implements LoaderManager.Load
 ````
   
 2.3 음성인식
---
+---
+
+좌측 하단의 이모지 버튼을 LongClick 하면 음성인식 기능이 실행된다. 음성을 인식할 준비가 되면 효과음과 함께 "이모티콘 키워드를 말하세요" 라는 토스트 메시지가 나타나며, 사용자는 간단한 키워드를 말하게 된다. 
+
+<img src = './artwork/음성인식1.png' width = '200' height = '' /> 
+
 ConversationAcitvity는 RecognitionListener객체를 포함하며 액티비티 생성시에 Speechintent객체와 RecognitionListener객체를 준비시킨다.
 ````javascript
 public class ConversationActivity extends PassphraseRequiredActionBarActivity(){
  //중략
  private Intent Speechintent; //음성인식 Intent
  SpeechRecognizer mRecognizer; 
- HashMap<String,String[]> randomEmojiData;
+ HashMap<String,String[]> randomEmojiData; //분류된 키워드-이모지가 담길 것이다.
   
  protected void onCreate(Bundle state, boolean ready) {
   //중략
   Speechintent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
   Speechintent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
-  Speechintent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ko-KR");
+  Speechintent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ko-KR"); //한국어로 설정
   mRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
   mRecognizer.setRecognitionListener(recognitionListener);
  }
@@ -247,7 +255,7 @@ private RecognitionListener recognitionListener = new RecognitionListener() {
       Log.i(TAG, "음성인식 결과");
       String key = "";
       key = SpeechRecognizer.RESULTS_RECOGNITION; //인식된 키워드를 불러온다.
-      ArrayList<String> mResult = bundle.getStringArrayList(key); //키워드를
+      ArrayList<String> mResult = bundle.getStringArrayList(key); //키워드를 ArrayList로 저장한다.
 
       String[] rs = new String[mResult.size()];
       mResult.toArray(rs);
@@ -260,15 +268,23 @@ private RecognitionListener recognitionListener = new RecognitionListener() {
 
 2.4 키워드 분류 및 이모티콘 전송
 --
+
+사용자가 말한 키워드를 분석하여 적당한 이모지를 랜덤으로 발송한다. 왼쪽의 이미지는 "축하"라는 키워드를 말했을 때 관련된 이모지가 랜덤으로 선택되어 전송된 결과이다. 앱 내부적으로 키워드에 관련한 이모지를 분류했으며, 사용자가 분류되지 않은 키워드를 말했을 때에는 "키워드가 데이터베이스에 존재하지 않음" 이라는 토스트 메시지를 띄운다.
+
+<img src = './artwork/음성인식2.png' width = '200' height = '' /> <img src = './artwork/음성인식3.png' width = '200' height = '' />
+
+
 ````javascript
+//이모지 버튼에 연결된 Listener는 Long Click 되었을 때 onEmojiVoice()를 호출한다.
 @Override
-  public boolean onEmojiVoice(){ //이모지 버튼 길게 눌러졌을 때 음성인식 실행
-    mRecognizer.startListening(Speechintent);
+  public boolean onEmojiVoice(){
+    mRecognizer.startListening(Speechintent); //음성인식 기능 실행
     return true;
-    //return false; //이 메서드에서 이벤트에 대한 처리를 끝내지 못하므로
   }
 
-  public void makeEmojiData(){
+//키워드를 key로 하고, 이모지 Array를 value로 하는 HashMap을 생성하여 이모지를 분류했다.
+//HashMap의 참조변수는 ConversationActivity 클래스의 인스턴스 변수이며, onCreate()에서 makeEmojiData()를 실행하게 된다. 
+  public void makeEmojiData(){ 
     randomEmojiData= new HashMap<String,String[]>();
     randomEmojiData.put("웃음",new String[]{"😊","😁","😄","😀"});
     randomEmojiData.put("사랑",new String[]{"😍","😘","❤","💖","💕"});
@@ -284,15 +300,16 @@ private RecognitionListener recognitionListener = new RecognitionListener() {
     randomEmojiData.put("아픔",new String[]{"😷","🤧","🤒","🤕"});
     randomEmojiData.put("하트",new String[]{"❤","🧡","💛","💚","💙","💜","❣","💓","💗"});
   }
+  
+  //음성인식 결과를 인자(result)로 randomEmojiSend()를 호출하면, 랜덤으로 이모지가 전송된다.
   public void randomEmojiSend(String result){
     if(!randomEmojiData.containsKey(result)) {
-
       Toast.makeText(this,"키워드가 데이터베이스에 존재하지 않음",Toast.LENGTH_SHORT).show();
       return;
     }
     composeText.insertEmoji(randomEmojiData.get(result)
-    [(int)(Math.random()*randomEmojiData.get(result).length)]);
-    sendMessage();
+    [(int)(Math.random()*randomEmojiData.get(result).length)]); //랜덤으로
+    sendMessage(); //전송
   }
 ````
 
