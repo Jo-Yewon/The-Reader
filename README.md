@@ -247,9 +247,10 @@ Android Text-to-Speech    https://developer.android.com/reference/android/speech
 1771045 이지은(Iamjieun) - 음성인식 및 키워드 분류 기능 구현 
 - Iamjieun : 음성인식 및 키워드에 따른 이모티콘 전송 기능 구현, 이모티콘 데이터베이스
 
-1771104 조예원(QueenCurry) - 음성합성 기능 및 사용자 인터페이스 구현
-- JoYewon : 카카오 앱 키 설정, 음성합성 기능 구현, 글씨 크기 조절 기능 추가, 발표자료 담당
-- QueenCurry-README : Readme.md 작성
+1771104 조예원(QueenCurry) - 음성합성 기능 및 사용자 인터페이스 구현, 음성인식 이모티콘 자동 전송 기능 구현
+- JoYewon : 카카오 앱 키 설정, 음성합성 기능 구현, 글씨 크기 조절 기능 일부 추가
+- QueenCurry-README : Readme.md에 음성합성 기능 설명 및 스크린샷 추가, UI 스크린샷 추가, 기타 요소 추가
+- JoYewon-Emoji : 키워드 음성 인식으로 이모티콘을 자동 전송하는 기능 구현.
 
 
 # License
