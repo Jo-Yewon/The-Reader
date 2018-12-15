@@ -29,7 +29,8 @@ public class ChatsPreferenceFragment extends ListSummaryPreferenceFragment {
         findPreference(TextSecurePreferences.MESSAGE_BODY_TEXT_SIZE_PREF)
             .setOnPreferenceChangeListener(new ListSummaryListener());
        
-        initializeListSummary((ListPreference) findPreference(TextSecurePreferences.MESSAGE_BODY_TEXT_SIZE_PREF));
+        initializeListSummary((ListPreference)
+        findPreference(TextSecurePreferences.MESSAGE_BODY_TEXT_SIZE_PREF));
         //중략
     }
     //중략
