@@ -231,6 +231,7 @@ public class ConversationFragment extends Fragment implements LoaderManager.Load
 ---
 
 좌측 하단의 이모지 버튼을 LongClick 하면 음성인식 기능이 실행된다. 음성을 인식할 준비가 되면 효과음과 함께 "이모티콘 키워드를 말하세요" 라는 토스트 메시지가 나타나며, 사용자는 간단한 키워드를 말하게 된다.  이모지 버튼을 인식하기 위해 InputPanel.Listener 인터페이스에 onEmojiToggle(), onEmojiVoice()을 추가해 ConversationAcitivity에서 구현한다. onEmojitoggle()은 이모지 버튼을 LongClick하는 것을 인식한다. onEmojiVoice()는 이모지 버튼이 길게 눌러졌을 때 음성인식을 실행한다.
+
 <img src = './artwork/음성인식1.png' width = '200' height = '' /> 
 ````javascript
 public class ConversationActivity extends PassphraseRequiredActionBarActivity implements InputPanel.Listener{
