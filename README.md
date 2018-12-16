@@ -3,6 +3,7 @@
 
 # 1. How to use
 
+https://drive.google.com/open?id=1vF4x2GhiLYlGe5pWQencFRfDM0Pw1d0G  
 위 링크를 통해 apk 파일을 다운받을 수 있다. 
 
 # 2. 주요 기능 및 코드
