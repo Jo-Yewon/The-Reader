@@ -237,12 +237,11 @@ public class ConversationFragment extends Fragment implements LoaderManager.Load
 ````javascript
 public class ConversationActivity extends PassphraseRequiredActionBarActivity implements InputPanel.Listener{
 @Override
-  public void onEmojiToggle() {
+  public void onEmojiToggle() { //이모지 버튼을 클릭했을 때 실행되는 기존의 메서드
     if (!emojiDrawerStub.resolved()) {
       inputPanel.setEmojiDrawer(emojiDrawerStub.get());
       emojiDrawerStub.get().setEmojiEventListener(inputPanel);
     }
-
     if (container.getCurrentInput() == emojiDrawerStub.get()) {
       container.showSoftkey(composeText);
     } else {
@@ -251,7 +250,7 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity im
   }
 
   @Override
-  public boolean onEmojiVoice(){ //이모지 버튼 길게 눌러졌을 때 음성인식 실행
+  public boolean onEmojiVoice(){ //이모지 버튼 길게 눌러졌을 때 음성인식 실행하는 메서드를 새로 추가
     mRecognizer.startListening(Speechintent);
     return true;
     //return false; //이 메서드에서 이벤트에 대한 처리를 끝내지 못하므로
@@ -346,7 +345,9 @@ private RecognitionListener recognitionListener = new RecognitionListener() {
 # 3. 사용한 API
 Signal-android            https://github.com/signalapp/Signal-Android
 
-Android Text-to-Speech    https://developer.android.com/reference/android/speech/tts/TextToSpeech     
+Android Text-to-Speech    https://developer.android.com/reference/android/speech/tts/TextToSpeech  
+
+Android Speech-to-Text    https://developer.android.com/reference/android/speech/SpeechRecognizer
 
 
 # 4. 개발자 정보
