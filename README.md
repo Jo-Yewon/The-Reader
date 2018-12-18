@@ -9,7 +9,13 @@
 
 https://drive.google.com/open?id=1Q7iUdqLL_qAybionkCBVV2qIQQJ13hoT 
 
-위 링크를 통해 apk 파일을 다운받을 수 있다. 
+위 링크를 통해 apk 파일을 다운받을 수 있다. 설치 과정은 다음과 같다. apk 파일을 다운 받은 후 설치하면 실행할 수 있다.
+
+ <img src = './artwork/installdone.jpg' width = '200' height = '' /> <img src = './artwork/appinstalled.jpg' width = '200' height = '' />
+
+The Reader는 Signal 메신저 기반으로 최초 실행시에 Signal 메신저와 같은 절차를 밟아야한다. 우선은 단말기에 인터넷 연결이 되었는지 확인한다. 그 후 The Reader를 실행하고 휴대전화 번호로 인증 번호를 보내어 사용자 인증을 한다. 사용자 이름과 사진을 설정(선택)하면 The Reader를 이용할 수 있다.
+
+ <img src = './artwork/verify.jpg' width = '200' height = '' /> <img src = './artwork/verifyingnumber.jpg' width = '200' height = '' />  <img src = './artwork/userprofileset.jpg' width = '200' height = '' /> <img src = './artwork/TheReaderMain.jpg' width = '200' height = '' />
 
 # 2. 주요 기능 및 코드
 
@@ -19,6 +25,8 @@ https://drive.google.com/open?id=1Q7iUdqLL_qAybionkCBVV2qIQQJ13hoT
 사용자의 편의에 따라 글씨 및 이모지의 크기를 세부적으로 선택할 수 있다. 예를 들어 저시력 사용자는 메시지를 크게하고, 터널시야 증상을 가진 사용자는 메시지를 작게하여 보다 편하게 메시지를 읽을 수 있을 것이다.
 
 <img src = './artwork/fontImage.png' width = '200' height = '' /> <img src = './artwork/fontImage2.jpg' width = '200' height = '' />
+
+
 
 <br>
 
