@@ -385,11 +385,16 @@ Android Speech-to-Text    https://developer.android.com/reference/android/speech
 - QueenCurry-README : Readme.md에 음성합성 기능 설명 및 스크린샷 추가, UI 스크린샷 추가, 기타 요소 추가
 - JoYewon-Emoji : 키워드 음성 인식으로 이모티콘을 자동 전송하는 기능 구현
 
-그 외 역할
+*그 외 역할
+
 1515003 고영지 : 중간 발표용 피피티 제작
+
 1615003 신유진 : 중간, 기말 발표용 피피티 제작
+
 1771018 김혜지 : 중간, 기말 발표
+
 1771045 이지은 : 중간, 기말 발표 및 동영상 제작
+
 1771104 조예원 : 중간, 기말 발표용 피피티 제작
 
 
