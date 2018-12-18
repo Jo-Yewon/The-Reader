@@ -7,7 +7,7 @@
 
 # 1. How to use
 
-https://drive.google.com/open?id=1F8LPXxIEqb7Jka54D39_Nnme4VEDcuYx
+https://drive.google.com/open?id=1Q7iUdqLL_qAybionkCBVV2qIQQJ13hoT 
 
 위 링크를 통해 apk 파일을 다운받을 수 있다. 
 
