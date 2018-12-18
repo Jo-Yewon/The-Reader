@@ -386,7 +386,7 @@ Android Speech-to-Text    https://developer.android.com/reference/android/speech
 1771018 김혜지(kimhj5854) - 어플리케이션 아이콘 이미지 제작, 중간, 기말 발표
 - Maeg : README.md 에 어플리케이션 사용법 추가
 
-1771045 이지은(Iamjieun) - 중간, 기말 발표 및 동영상 제작
+1771045 이지은(Iamjieun) - 중간, 기말 발표 대본 작성 및 시연 동영상 제작
 - Iamjieun
 
 1771104 조예원(QueenCurry) - 음성합성 기능 및 사용자 인터페이스 구현, 음성인식 이모티콘 자동 전송 기능 구현, 중간, 기말 발표용 피피티 제작
