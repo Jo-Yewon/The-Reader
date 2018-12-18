@@ -1,8 +1,13 @@
-# 더 리더 The Reader
- > 더 리더는 시각장애인을 위한 메신저 어플리케이션으로 음성합성(Text-To-Speech)을 통해 사용자가 받은 메시지를 음성으로 들려주고 음성인식(Speech-To-Text)을 통해 사용자가 음성으로 말한 내용을 텍스트로 바꿔준다. 또 단순한 음성인식 기능에서 더 나아가, 음성인식된 키워드를 중심으로 관련 이모티콘을 전송하여 시각장애인들의 표현의 다양성을 높이면서 더 편리하게 메시지를 주고 받을 수 있도록 제작한 안드로이드 기반의 어플리케이션이다.
+
+
+#  더 리더 The Reader    <img src = './res/mipmap-xxxhdpi/ic_launcher.png' width = '70' height = '' /> 
+
+ > 더 리더는 시각장애인을 위한 안드로이드 기반의 메신저 어플리케이션이다. 주요 기능으로 사용자가 받은 메시지를 음성으로 들려주는 음성합성(Text-To-Speech)과 사용자가 음성으로 말한 내용을 텍스트로 바꿔주는 음성인식(Speech-To-Text)이 있다. 또한 단순 음성인식 기능에서 더 나아가, 음성인식된 키워드를 중심으로 관련 이모티콘을 전송하여 시각장애인들의 표현의 다양성을 높이면서 더 편리하게 메시지를 주고 받을 수 있도록 제작하였다.
+ 
 
 # 1. How to use
 
+https://drive.google.com/open?id=1vF4x2GhiLYlGe5pWQencFRfDM0Pw1d0G  
 위 링크를 통해 apk 파일을 다운받을 수 있다. 
 
 # 2. 주요 기능 및 코드
@@ -226,41 +231,83 @@ public class ConversationFragment extends Fragment implements LoaderManager.Load
 2.3 음성인식
 ---
 
-좌측 하단의 이모지 버튼을 LongClick 하면 음성인식 기능이 실행된다. 음성을 인식할 준비가 되면 효과음과 함께 "이모티콘 키워드를 말하세요" 라는 토스트 메시지가 나타나며, 사용자는 간단한 키워드를 말하게 된다. 
+좌측 하단의 이모지 버튼을 LongClick 하면 음성인식 기능이 실행된다. 음성을 인식할 준비가 되면 효과음과 함께 "이모티콘 키워드를 말하세요" 라는 토스트 메시지가 나타나며, 사용자는 간단한 키워드를 말하게 된다.  이모지 버튼을 인식하기 위해 InputPanel 클래스의 EmojiToggle(이모지 버튼)에 LongClickListener를 추가로 연결하였으며, 해당 이벤트가 발생하면 onEmojiVoice()를 호출하게 했다.
 
 <img src = './artwork/음성인식1.png' width = '200' height = '' /> 
+
+````javascript
+
+public class InputPanel extends LinearLayout
+     implements MicrophoneRecorderView.Listener,
+                KeyboardAwareLinearLayout.OnKeyboardShownListener,
+                EmojiDrawer.EmojiEventListener
+ {
+     private EmojiToggle emojiToggle; //이모지 버튼
+ 
+     //중략
+     public void setListener(final @NonNull Listener listener) {
+         this.listener = listener;
+         emojiToggle.setOnClickListener(v -> listener.onEmojiToggle()); //기존의 기능
+         emojiToggle.setOnLongClickListener(v -> listener.onEmojiVoice()); //LongClickListener를 추가로 연결
+     }
+     //중략
+ }
+  
+public class ConversationActivity extends PassphraseRequiredActionBarActivity implements InputPanel.Listener{
+     @Override
+     public void onEmojiToggle() { //이모지 버튼을 클릭했을 때 실행되는 기존의 메서드
+         if (!emojiDrawerStub.resolved()) {
+             inputPanel.setEmojiDrawer(emojiDrawerStub.get());
+             emojiDrawerStub.get().setEmojiEventListener(inputPanel);
+         }
+         if (container.getCurrentInput() == emojiDrawerStub.get()) {
+             container.showSoftkey(composeText);
+         } else {
+             container.show(composeText, emojiDrawerStub.get());
+         }
+     }
+
+     @Override
+     public boolean onEmojiVoice(){ //이모지 버튼 길게 눌러졌을 때 음성인식 실행하는 메서드를 새로 추가
+         mRecognizer.startListening(Speechintent);
+         return true; //이 메서드에서 처리 완료
+     }
+}
+````
+
 
 ConversationAcitvity는 RecognitionListener객체를 포함하며 액티비티 생성시에 Speechintent객체와 RecognitionListener객체를 준비시킨다.
 ````javascript
 public class ConversationActivity extends PassphraseRequiredActionBarActivity(){
- //중략
- private Intent Speechintent; //음성인식 Intent
- SpeechRecognizer mRecognizer; 
- HashMap<String,String[]> randomEmojiData; //분류된 키워드-이모지가 담길 것이다.
-  
- protected void onCreate(Bundle state, boolean ready) {
-  //중략
-  Speechintent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-  Speechintent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
-  Speechintent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ko-KR"); //한국어로 설정
-  mRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
-  mRecognizer.setRecognitionListener(recognitionListener);
- }
+    //중략
+    private Intent Speechintent; //음성인식 Intent
+    SpeechRecognizer mRecognizer; 
+    HashMap<String,String[]> randomEmojiData; //분류된 키워드-이모지가 담길 것이다.
+
+    protected void onCreate(Bundle state, boolean ready) {
+         //중략
+         Speechintent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+         Speechintent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
+         Speechintent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ko-KR"); //한국어로 설정
+         mRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
+         mRecognizer.setRecognitionListener(recognitionListener);
+    }
+}
 ````
 음성을 인식하고 String으로 전환하는 RecognitionListener객체는 음성인식 완료 후 인식된 결과를 ArrayList의 형태로 변환한후 다시한번 String array형태로 변환한다. 인식된 음성 중 가장 첫번째 단어를 키워드로 간주해 randomEmojiSend에 전달하여 이모티콘을 전송한다.
 ````javascript
 private RecognitionListener recognitionListener = new RecognitionListener() {
     @Override
     public void onResults(Bundle bundle) { //음성인식 완료 후 실행되는 메소드
-      Log.i(TAG, "음성인식 결과");
-      String key = "";
-      key = SpeechRecognizer.RESULTS_RECOGNITION; //인식된 키워드를 불러온다.
-      ArrayList<String> mResult = bundle.getStringArrayList(key); //키워드를 ArrayList로 저장한다.
+         Log.i(TAG, "음성인식 결과");
+         String key = "";
+         key = SpeechRecognizer.RESULTS_RECOGNITION; //인식된 키워드를 불러온다.
+         ArrayList<String> mResult = bundle.getStringArrayList(key); //키워드를 ArrayList로 저장한다.
 
-      String[] rs = new String[mResult.size()];
-      mResult.toArray(rs);
+         String[] rs = new String[mResult.size()];
+         mResult.toArray(rs);
 
-      randomEmojiSend(rs[0]); //첫번째 단어를 이용해 이모티콘을 전송한다.
+         randomEmojiSend(rs[0]); //첫번째 단어를 이용해 이모티콘을 전송한다.
     }
     //중략
 };
@@ -278,64 +325,77 @@ private RecognitionListener recognitionListener = new RecognitionListener() {
 //이모지 버튼에 연결된 Listener는 Long Click 되었을 때 onEmojiVoice()를 호출한다.
 @Override
   public boolean onEmojiVoice(){
-    mRecognizer.startListening(Speechintent); //음성인식 기능 실행
-    return true;
+      mRecognizer.startListening(Speechintent); //음성인식 기능 실행
+      return true;
   }
 
 //키워드를 key로 하고, 이모지 Array를 value로 하는 HashMap을 생성하여 이모지를 분류했다.
 //HashMap의 참조변수는 ConversationActivity 클래스의 인스턴스 변수이며, onCreate()에서 makeEmojiData()를 실행하게 된다. 
   public void makeEmojiData(){ 
-    randomEmojiData= new HashMap<String,String[]>();
-    randomEmojiData.put("웃음",new String[]{"😊","😁","😄","😀"});
-    randomEmojiData.put("사랑",new String[]{"😍","😘","❤","💖","💕"});
-    randomEmojiData.put("기뻐",new String[]{"😊","😁","😄"});
-    randomEmojiData.put("슬픔",new String[]{"☹","😫","😔","😿","😭","😥"});
-    randomEmojiData.put("축하",new String[]{"🎉","🎊","👏"});
-    randomEmojiData.put("미안",new String[]{"😭","😥"});
-    randomEmojiData.put("안녕",new String[]{"👋","🙋","✋"});
-    randomEmojiData.put("최고",new String[]{"👍","👏"});
-    randomEmojiData.put("기쁨",new String[]{"🤩","🤗","😽","😆","😃"});
-    randomEmojiData.put("멘붕",new String[]{"😱","🤯","😵"});
-    randomEmojiData.put("화남",new String[]{"😡","🤬","😤","😠"});
-    randomEmojiData.put("아픔",new String[]{"😷","🤧","🤒","🤕"});
-    randomEmojiData.put("하트",new String[]{"❤","🧡","💛","💚","💙","💜","❣","💓","💗"});
+      randomEmojiData= new HashMap<String,String[]>();
+      randomEmojiData.put("웃음",new String[]{"😊","😁","😄","😀"});
+      randomEmojiData.put("사랑",new String[]{"😍","😘","❤","💖","💕"});
+      randomEmojiData.put("기뻐",new String[]{"😊","😁","😄"});
+      randomEmojiData.put("슬픔",new String[]{"☹","😫","😔","😿","😭","😥"});
+      randomEmojiData.put("축하",new String[]{"🎉","🎊","👏"});
+      randomEmojiData.put("미안",new String[]{"😭","😥"});
+      randomEmojiData.put("안녕",new String[]{"👋","🙋","✋"});
+      randomEmojiData.put("최고",new String[]{"👍","👏"});
+      randomEmojiData.put("기쁨",new String[]{"🤩","🤗","😽","😆","😃"});
+      randomEmojiData.put("멘붕",new String[]{"😱","🤯","😵"});
+      randomEmojiData.put("화남",new String[]{"😡","🤬","😤","😠"});
+      randomEmojiData.put("아픔",new String[]{"😷","🤧","🤒","🤕"});
+      randomEmojiData.put("하트",new String[]{"❤","🧡","💛","💚","💙","💜","❣","💓","💗"});
   }
   
   //음성인식 결과를 인자(result)로 randomEmojiSend()를 호출하면, 랜덤으로 이모지가 전송된다.
   public void randomEmojiSend(String result){
-    if(!randomEmojiData.containsKey(result)) {
-      Toast.makeText(this,"키워드가 데이터베이스에 존재하지 않음",Toast.LENGTH_SHORT).show();
-      return;
-    }
-    composeText.insertEmoji(randomEmojiData.get(result)
-    [(int)(Math.random()*randomEmojiData.get(result).length)]); //랜덤으로
-    sendMessage(); //전송
+      if(!randomEmojiData.containsKey(result)) {
+          Toast.makeText(this,"키워드가 데이터베이스에 존재하지 않음",Toast.LENGTH_SHORT).show();
+          return;
+      }
+      composeText.insertEmoji(randomEmojiData.get(result)[(int)(Math.random()*randomEmojiData.get(result).length)]); //랜덤
+      sendMessage(); //전송
   }
 ````
 
 # 3. 사용한 API
 Signal-android            https://github.com/signalapp/Signal-Android
 
-Android Text-to-Speech    https://developer.android.com/reference/android/speech/tts/TextToSpeech     
+Android Text-to-Speech    https://developer.android.com/reference/android/speech/tts/TextToSpeech  
+
+Android Speech-to-Text    https://developer.android.com/reference/android/speech/SpeechRecognizer
 
 
 # 4. 개발자 정보
-1515003 고영지(youngji-koh) - 사용자 인터페이스 및 음성합성 기능 구현
-- Youngji : 글씨 크기 조절 기능 추가, 고대비 테마 추가, 음성합성 기능 구현 담당
+1515003 고영지(youngji-koh) - 사용자 인터페이스 및 음성합성 기능 구현 
+- Youngji : 글씨 크기 조절 기능 추가, 고대비 테마 추가, 전체 UI 글씨 크기 확대, 음성합성 기능 구현,  README.md 
 
 1615035 신유진(jellyb3ar) - 음성인식 및 키워드 분류 기능 구현
-- jellyb3ar : 음성인식 및 키워드에 따른 이모티콘 전송 기능 구현 담당
+- jellyb3ar : 음성인식 및 키워드에 따른 이모티콘 전송 기능 구현 담당, readme.md 작성
 
-1771018 김혜지(kimhj5854) - 음성인식 및 키워드 분류 기능 구현
-- Maeg : 음성인식 및 키워드에 따른 이모티콘 전송 기능 구현, 
+1771018 김혜지(kimhj5854) - 어플리케이션 아이콘 이미지 제작
+- Maeg : README.md 에 어플리케이션 사용법 추가
 
-1771045 이지은(Iamjieun) - 음성인식 및 키워드 분류 기능 구현 
-- Iamjieun : 음성인식 및 키워드에 따른 이모티콘 전송 기능 구현, 이모티콘 데이터베이스
+1771045 이지은(Iamjieun) 
+- Iamjieun
 
 1771104 조예원(QueenCurry) - 음성합성 기능 및 사용자 인터페이스 구현, 음성인식 이모티콘 자동 전송 기능 구현
 - JoYewon : 카카오 앱 키 설정, 음성합성 기능 구현, 글씨 크기 조절 기능 일부 추가
 - QueenCurry-README : Readme.md에 음성합성 기능 설명 및 스크린샷 추가, UI 스크린샷 추가, 기타 요소 추가
-- JoYewon-Emoji : 키워드 음성 인식으로 이모티콘을 자동 전송하는 기능 구현.
+- JoYewon-Emoji : 키워드 음성 인식으로 이모티콘을 자동 전송하는 기능 구현
+
+*그 외 역할
+
+1515003 고영지 : 중간 발표용 피피티 제작
+
+1615003 신유진 : 중간, 기말 발표용 피피티 제작
+
+1771018 김혜지 : 중간, 기말 발표
+
+1771045 이지은 : 중간, 기말 발표 및 동영상 제작
+
+1771104 조예원 : 중간, 기말 발표용 피피티 제작
 
 
 # License
