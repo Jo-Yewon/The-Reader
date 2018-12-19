@@ -19,6 +19,10 @@ The Reader는 Signal 메신저 기반으로 최초 실행시에 Signal 메신저
 
 # 2. 주요 기능 및 코드
 
+https://www.youtube.com/watch?v=AI8HtLYSkfM
+
+위 링크를 통해 주요 기능 시연 동영상을 볼 수 있습니다.
+
 2.1 UI
 --
 
